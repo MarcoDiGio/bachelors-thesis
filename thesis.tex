@@ -334,7 +334,7 @@ Le osservazioni relative ai pazienti per i quali non viene registrato alcun even
 \label{cap:metodo}
 \section{Specifiche Tecniche}
 
-Il presente lavoro di tesi segue un approcci di tipo \textit{dynamic landmark}, nel quale ciascuna seduta di dialisi costituisce un nuovo punto di riferimento temporale rispetto al quale viene aggiornata la previsione; tale riferimento temporale è dunque sia un \textit{landmark time} sia un \textit{prediction time} \cite{VANHOUWELINGENDL2006}. Vengono inoltre utilizzati due approcci diversi per la gestione e la classificazione del rischio.
+Il presente lavoro di tesi adotta un'impostazione di tipo \textit{dynamic landmark}, nel quale ciascuna seduta di dialisi costituisce un nuovo punto di riferimento temporale rispetto al quale viene aggiornata la previsione; tale riferimento temporale è dunque sia un \textit{landmark time} sia un \textit{prediction time} \cite{VANHOUWELINGENDL2006}. Vengono inoltre utilizzati due approcci diversi per la gestione e la classificazione del rischio.
 
 Sia \(D\) il dataset, composto da righe della forma:
 \[
@@ -406,6 +406,77 @@ d,p,
 \right)
 \]
 
+Nel secondo approccio, per ogni riga del dataset originale e per ciascuna feature numerica considerata, viene stimata una regressione lineare sui valori osservati nella finestra temporale di riferimento.
+
+Per stimare la regressione lineare vengono definiti:
+\[
+\overline{t}_{p,d,f}^{(w)}
+=
+\frac{1}{\left|\mathcal{M}_{p,d,f}^{*(w)}\right|}
+\sum_{(t,m)\in\mathcal{M}_{p,d,f}^{*(w)}}
+(t-d)
+\]
+
+\[
+\overline{Y}_{p,d,f}^{(w)}
+=
+\frac{1}{\left|\mathcal{M}_{p,d,f}^{*(w)}\right|}
+\sum_{(t,m)\in\mathcal{M}_{p,d,f}^{*(w)}}
+m
+\]
+
+\[
+\hat{\beta}_{1,p,d,f}^{(w)}
+=
+\frac{
+\displaystyle
+\sum_{(t,m)\in\mathcal{M}_{p,d,f}^{*(w)}}
+\left[(t-d)-\overline{t}_{p,d,f}^{(w)}\right]
+\left[m-\overline{Y}_{p,d,f}^{(w)}\right]
+}{
+\displaystyle
+\sum_{(t,m)\in\mathcal{M}_{p,d,f}^{*(w)}}
+\left[(t-d)-\overline{t}_{p,d,f}^{(w)}\right]^2
+}
+\]
+
+\[
+\hat{\beta}_{0,p,d,f}^{(w)}
+=
+\overline{Y}_{p,d,f}^{(w)}
+-
+\hat{\beta}_{1,p,d,f}^{(w)}
+\overline{t}_{p,d,f}^{(w)}
+\]
+
+Dove \(\overline{t}_{p,d,f}^{(w)}\) indica la media degli scarti temporali \(t-d\), espressi in giorni, relativi alle osservazioni della feature \(f\) appartenenti all'insieme \(\mathcal{M}_{p,d,f}^{*(w)}\); \(\overline{Y}_{p,d,f}^{(w)}\) indica la media dei corrispondenti valori osservati della feature \(f\), per il paziente \(p\), nella finestra temporale \([d-w,d]\). I coefficienti \(\hat{\beta}_{1,p,d,f}^{(w)}\) e \(\hat{\beta}_{0,p,d,f}^{(w)}\) rappresentano, rispettivamente, la pendenza e l'intercetta stimate della retta di regressione.
+
+Il dataset ottenuto, denominato dataset B, mantiene le colonne originali e aggiunge, per ciascuna feature numerica considerata, i coefficienti della regressione lineare stimati nella relativa finestra temporale.
+
+Il dataset B può essere formalizzato come:
+
+\[
+D_B =
+\left\{
+r^B_{p,d}\mid r_{p,d}\in D
+\right\}
+\]
+
+dove ciascuna riga è definita come:
+
+\[
+r^B_{p,d} =
+\left(
+d,p,
+\left(m_{p,d,f}\right)_{f\in F_{\mathrm{agg}}},
+\left(
+\hat{\beta}_{0,p,d,f}^{(w)},
+\hat{\beta}_{1,p,d,f}^{(w)}
+\right)_{f\in F_{\mathrm{agg}}},
+\left(m_{p,d,g}\right)_{g\in F_{\mathrm{keep}}}
+\right)
+\]
+
 % Sia \(w\) l'ampiezza, espressa in giorni, della finestra temporale considerata e sia \(d\) la data della seduta di dialisi di riferimento. Per ogni paziente e per ciascuna variabile clinica, vengono considerate le misurazioni disponibili nell'intervallo temporale \([d-w,d]\), estremi inclusi. La coppia formata dall'id dell'evento di dialisi e dall'id del paziente identificano univocamente un insieme di misurazioni effettuato alla data \(d\).
 
 % A partire dal dataset originale vengono costruite due rappresentazioni alternative delle misurazioni, attraverso due approcci differenti. Per entrambe le rappresentazioni, la sliding window è fissata a 30 giorni (non più vero, adesso ho sliding window di 30, 60, 90, 120, 150, 180 giorni, ma fa parte degli esperimenti quindi non va detto in questo capitolo.).
@@ -437,7 +508,7 @@ Come si evince dalla Figura \ref{fig:distribution_target_class}, le classi di ri
 
 \section{Gestione degli outlier}
 
-All'interno del dataset sono stati individuati alcuni errori di inserimento. In particolare, distinguiamo gli errori in due tipologie:
+All'interno del dataset sono stati individuati alcuni errori di inserimento. È importante precisare che tali valori possono essere valori statisticamente inconsueti, oppure errori di inserimento. Gli errori di inserimento possono essere classificati in due modi:
 
 \begin{itemize}
     \item Errori di inserimento fuori scala, ovvero inserimento di valori clinicamente impossibili. Ad esempio, una persona non può avere un BMI negativo.
@@ -446,12 +517,14 @@ All'interno del dataset sono stati individuati alcuni errori di inserimento. In 
 
 In questo contesto, si definiscono \textit{outlier} le osservazioni che presentano uno scostamento significativo rispetto ai valori o alle combinazioni di valori attesi. La presenza di un outlier non implica necessariamente che il dato sia errato, ma individua un'osservazione potenzialmente anomala che potrebbe derivare da un errore di inserimento.
 
-Per individuare tali osservazioni viene utilizzato Isolation Forest, un algoritmo di apprendimento non supervisionato per l'\textit{anomaly
+Per individuare tali osservazioni viene utilizzato Isolation Forest \cite{IF4781136}, un algoritmo di apprendimento non supervisionato per l'\textit{anomaly
 detection}. L'algoritmo si basa sul principio secondo cui le osservazioni anomale tendono a essere più facilmente isolabili rispetto alle osservazioni ordinarie.
 
-Isolation Forest utilizza un insieme di alberi decisionali casuali, chiamati Isolation Tree. Ogni albero viene costruito attraverso una serie di suddivisioni casuali dei dati. A ogni passaggio viene selezionata casualmente una variabile e una soglia di separazione, compresa tra il valore minimo e quello massimo osservato per la variabile selezionata, in modo da dividere le osservazioni in due gruppi. Il procedimento viene ripetuto fino a quando le osservazioni vengono isolate.
+Isolation Forest utilizza un insieme di alberi decisionali casuali, chiamati Isolation Tree. Ogni albero viene costruito attraverso una serie di suddivisioni casuali dei dati. A ogni passaggio viene selezionata casualmente una variabile e una soglia di separazione, compresa tra il valore minimo e quello massimo osservato per la variabile selezionata, in modo da dividere le osservazioni in due gruppi. Il procedimento viene ripetuto fino a quando le osservazioni vengono isolate\cite{IF4781136}.
 
-Il principio alla base dell'algoritmo è che un valore anomalo, essendo generalmente meno frequente e più distante dagli altri valori, tende a essere isolato attraverso un numero inferiore di suddivisioni. Per ogni osservazione viene quindi considerato il numero di passaggi necessari per isolarla nei diversi alberi. Questo valore, chiamato path length, viene utilizzato per calcolare un punteggio di anomalia (anomaly score). Valori con un percorso medio più breve tendono a essere considerati più anomali rispetto agli altri.
+Il principio alla base dell'algoritmo è che un valore anomalo, essendo generalmente meno frequente e più distante dagli altri valori, tende a essere isolato attraverso un numero inferiore di suddivisioni. Per ogni osservazione viene quindi considerato il numero di passaggi necessari per isolarla nei diversi alberi. Questo valore, chiamato path length, viene utilizzato per calcolare un punteggio di anomalia (anomaly score). Valori con un percorso medio più breve tendono a essere considerati più anomali rispetto agli altri\cite{10.1145/2133360.2133363}.
+
+Nel corso degli anni, tale algoritmo è riuscito a classificarsi come un algoritmo dall'ottima precisione nelle time-series \cite{DOMINGUES2018406} ed anche in ambito medico \cite{AnomalyDetectionEHR2023}.
 
 Nel lavoro vengono utilizzati 1000 alberi per la costruzione dell'ensemble, impostando il parametro \(n\_estimators=1000\). Per determinare la soglia utilizzata nella classificazione delle osservazioni viene inoltre impostato il parametro \(contamination=0.0001\), corrispondente a una proporzione attesa di anomalie pari allo 0,01\% delle osservazioni analizzate. Questo parametro influenza quindi la soglia a partire dalla quale un'osservazione viene classificata come anomala, senza rappresentare un limite numerico specifico della variabile clinica.
 
