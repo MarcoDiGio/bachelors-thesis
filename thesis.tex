@@ -524,9 +524,9 @@ Isolation Forest costruisce un insieme di alberi decisionali casuali, denominati
 
 Il numero di suddivisioni necessarie per isolare un'osservazione, ovvero il numero di archi percorsi dalla radice fino al nodo terminale dell'albero, è denominato \textit{path length}. Per ciascuna osservazione viene calcolata la lunghezza media dei percorsi nei diversi alberi dell'ensemble, utilizzata per determinare un punteggio di anomalia, denominato \textit{anomaly score}. In generale, un percorso medio più breve corrisponde a un punteggio di anomalia più elevato e indica una maggiore probabilità che l'osservazione sia anomala \cite{IF4781136,10.1145/2133360.2133363}.
 
-La scelta di Isolation Forest è supportata anche da precedenti studi comparativi. Domingues et al. \cite{DOMINGUES2018406} hanno confrontato 14 algoritmi di rilevamento degli outlier, valutandone le prestazioni, la robustezza, i tempi di esecuzione e il consumo di memoria. I risultati evidenziano le buone caratteristiche di efficienza e scalabilità di Isolation Forest, anche in presenza di dataset di grandi dimensioni. In ambito sanitario, Samariya et al. \cite{AnomalyDetectionEHR2023} hanno confrontato diversi algoritmi di \textit{anomaly detection} su 16 dataset reali relativi a dati sanitari. In tale valutazione, Isolation Forest ha ottenuto la migliore AUC media tra gli algoritmi considerati, risultando il metodo con le migliori prestazioni in 10 dataset su 16. Gli autori evidenziano tuttavia che nessun algoritmo risulta il migliore in tutti i dataset. Questi risultati supportano l'impiego di Isolation Forest nell'analisi di dati sanitari, pur non garantendone a priori le prestazioni sul dataset considerato nel presente lavoro.
+La scelta di Isolation Forest è supportata anche da precedenti studi comparativi. Domingues et al. \cite{DOMINGUES2018406} hanno confrontato 14 algoritmi di rilevamento degli outlier, valutandone le prestazioni, la robustezza, i tempi di esecuzione e il consumo di memoria. I risultati evidenziano le buone caratteristiche di efficienza e scalabilità di Isolation Forest, anche in presenza di dataset di grandi dimensioni. In ambito sanitario, Samariya et al. \cite{AnomalyDetectionEHR2023} hanno confrontato diversi algoritmi di \textit{anomaly detection} su 16 dataset reali relativi a dati sanitari. In tale valutazione, Isolation Forest ha ottenuto la migliore AUC media tra gli algoritmi considerati, risultando il metodo con le migliori prestazioni in 10 dataset su 16. Gli autori evidenziano tuttavia che nessun algoritmo risulta il migliore in tutti i dataset. Questi risultati supportano l'impiego di Isolation Forest nell'analisi di dati sanitari, pur non garantendone a priori le prestazioni sul dataset.
 
-Nel lavoro vengono utilizzati 1000 alberi per la costruzione dell'ensemble, impostando il parametro \texttt{n\_estimators=1000}. Per determinare la soglia utilizzata nella classificazione delle osservazioni viene inoltre impostato il parametro \texttt{contamination=0.0001}, corrispondente a una proporzione di contaminazione assunta pari allo 0,01\% delle osservazioni analizzate. Tale parametro interviene nella determinazione della soglia dell'\textit{anomaly score} e non rappresenta un limite numerico specifico della variabile clinica, né una stima verificata della percentuale effettiva di errori presenti nel dataset.
+Vengono utilizzati 1000 alberi per la costruzione dell'ensemble, impostando il parametro \texttt{n\_estimators=1000}. Per determinare la soglia utilizzata nella classificazione delle osservazioni viene inoltre impostato il parametro \texttt{contamination=0.0001}, corrispondente a una proporzione di contaminazione assunta pari allo 0,01\% delle osservazioni analizzate. Tale parametro interviene nella determinazione della soglia dell'\textit{anomaly score} e non rappresenta un limite numerico specifico della variabile clinica, né una stima verificata della percentuale effettiva di errori presenti nel dataset.
 
 Nel contesto considerato, Isolation Forest viene applicato globalmente, considerando tutte le osservazioni disponibili per ciascuna variabile, senza costruire un modello specifico per ogni paziente. Inoltre, le variabili vengono analizzate singolarmente, senza considerare contemporaneamente le altre misurazioni cliniche. L'algoritmo valuta quindi quanto un valore sia anomalo rispetto alla distribuzione complessiva della variabile analizzata.
 
@@ -538,97 +538,97 @@ Le osservazioni identificate come anomale vengono eliminate dal dataset utilizza
 
 \section{Gestione dei missing}
 
-A seguito delle politiche di aggregazione e a causa della natura dei dati, le righe presentano dei valori mancanti. I valori mancanti vengono descritti dalla Tabella \ref{tab:missing_plain}.
+% A seguito delle operazioni di aggregazione e a causa della natura dei dati, che vengono raccolti con periodicità diverse, le righe presentano dei valori mancanti. I valori mancanti vengono descritti dalla Tabella \ref{tab:missing_plain}.
 
-\begin{longtable}{p{0.72\textwidth}r}
-\caption{Percentuale di valori mancanti per variabile nel dataset \textit{plain}}
-\label{tab:missing_plain} \\
-\toprule
-\textbf{Variabile} & \textbf{Valori mancanti (\%)} \\
-\midrule
-\endfirsthead
+% \begin{longtable}{p{0.72\textwidth}r}
+% \caption{Percentuale di valori mancanti per variabile nel dataset \textit{plain}}
+% \label{tab:missing_plain} \\
+% \toprule
+% \textbf{Variabile} & \textbf{Valori mancanti (\%)} \\
+% \midrule
+% \endfirsthead
 
-\multicolumn{2}{c}{\tablename\ \thetable{} continua dalla pagina precedente} \\
-\toprule
-\textbf{Variabile} & \textbf{Valori mancanti (\%)} \\
-\midrule
-\endhead
+% \multicolumn{2}{c}{\tablename\ \thetable{} continua dalla pagina precedente} \\
+% \toprule
+% \textbf{Variabile} & \textbf{Valori mancanti (\%)} \\
+% \midrule
+% \endhead
 
-\midrule
-\multicolumn{2}{r}{Continua nella pagina successiva} \\
-\endfoot
+% \midrule
+% \multicolumn{2}{r}{Continua nella pagina successiva} \\
+% \endfoot
 
-\bottomrule
-\endlastfoot
+% \bottomrule
+% \endlastfoot
 
-\texttt{patient} & 0,00 \\
-\texttt{dialysis\_date} & 0,00 \\
-\texttt{dialysis\_end} & 0,00 \\
-\texttt{tte\_days} & 0,00 \\
-\texttt{event\_observed} & 0,00 \\
-\texttt{bmi} & 12,76 \\
-\texttt{score\_coag} & 100,00 \\
-\texttt{qb\_totale} & 4,77 \\
-\texttt{qb\_medio} & 0,02 \\
-\texttt{arter} & 9,56 \\
-\texttt{vena} & 10,07 \\
-\texttt{score\_fav} & 96,27 \\
-\texttt{score\_cvc} & 97,82 \\
-\texttt{peso\_pre} & 0,10 \\
-\texttt{peso\_post} & 0,19 \\
-\texttt{circonferenza\_braccio} & 99,29 \\
-\texttt{dpi} & 99,37 \\
-\texttt{dei} & 99,37 \\
-\texttt{ffm\_post} & 99,27 \\
-\texttt{bcm\_post} & 99,27 \\
-\texttt{fm\_post} & 99,27 \\
-\texttt{albuminemia} & 96,68 \\
-\texttt{colesterolemia} & 97,59 \\
-\texttt{hb} & 93,11 \\
-\texttt{sideremia} & 94,23 \\
-\texttt{transferrina} & 94,91 \\
-\texttt{ferritina} & 94,62 \\
-\texttt{dosaggio\_epoetina\_alpha\_mensile} & 96,86 \\
-\texttt{azotemia\_pre} & 94,91 \\
-\texttt{azotemia\_post} & 94,59 \\
-\texttt{calcemia} & 93,92 \\
-\texttt{fosforemia} & 95,34 \\
-\texttt{pth} & 95,18 \\
-\texttt{fosfatasi\_alcalina} & 97,24 \\
-\texttt{vitamina\_d} & 99,00 \\
-\texttt{bicarbonatemia} & 99,92 \\
-\texttt{tipo\_accesso\_vascolare} & 1,83 \\
-\texttt{data\_installazione\_av} & 100,00 \\
-\texttt{data\_nascita} & 0,00 \\
-\texttt{sesso} & 0,00 \\
-\texttt{mesi\_cvc} & 69,69 \\
-\texttt{mesi\_fav} & 29,65 \\
-\texttt{minuti\_dialisi} & 0,00 \\
-\texttt{ore\_dialisi} & 0,00 \\
-\texttt{uf\_tot} & 0,19 \\
-\texttt{qb} & 4,77 \\
-\texttt{a\_v} & 10,28 \\
-\texttt{pa\_qb} & 13,67 \\
-\texttt{pv\_qb} & 14,17 \\
-\texttt{uf} & 0,27 \\
-\texttt{dei\_peso} & 99,37 \\
-\texttt{dpi\_peso} & 99,37 \\
-\texttt{fosfalcindex} & 97,24 \\
-\texttt{tsat} & 94,95 \\
-\texttt{alpha\_epodose\_weight} & 96,86 \\
-\texttt{alpha\_eri} & 99,83 \\
+% \texttt{patient} & 0,00 \\
+% \texttt{dialysis\_date} & 0,00 \\
+% \texttt{dialysis\_end} & 0,00 \\
+% \texttt{tte\_days} & 0,00 \\
+% \texttt{event\_observed} & 0,00 \\
+% \texttt{bmi} & 12,76 \\
+% \texttt{score\_coag} & 100,00 \\
+% \texttt{qb\_totale} & 4,77 \\
+% \texttt{qb\_medio} & 0,02 \\
+% \texttt{arter} & 9,56 \\
+% \texttt{vena} & 10,07 \\
+% \texttt{score\_fav} & 96,27 \\
+% \texttt{score\_cvc} & 97,82 \\
+% \texttt{peso\_pre} & 0,10 \\
+% \texttt{peso\_post} & 0,19 \\
+% \texttt{circonferenza\_braccio} & 99,29 \\
+% \texttt{dpi} & 99,37 \\
+% \texttt{dei} & 99,37 \\
+% \texttt{ffm\_post} & 99,27 \\
+% \texttt{bcm\_post} & 99,27 \\
+% \texttt{fm\_post} & 99,27 \\
+% \texttt{albuminemia} & 96,68 \\
+% \texttt{colesterolemia} & 97,59 \\
+% \texttt{hb} & 93,11 \\
+% \texttt{sideremia} & 94,23 \\
+% \texttt{transferrina} & 94,91 \\
+% \texttt{ferritina} & 94,62 \\
+% \texttt{dosaggio\_epoetina\_alpha\_mensile} & 96,86 \\
+% \texttt{azotemia\_pre} & 94,91 \\
+% \texttt{azotemia\_post} & 94,59 \\
+% \texttt{calcemia} & 93,92 \\
+% \texttt{fosforemia} & 95,34 \\
+% \texttt{pth} & 95,18 \\
+% \texttt{fosfatasi\_alcalina} & 97,24 \\
+% \texttt{vitamina\_d} & 99,00 \\
+% \texttt{bicarbonatemia} & 99,92 \\
+% \texttt{tipo\_accesso\_vascolare} & 1,83 \\
+% \texttt{data\_installazione\_av} & 100,00 \\
+% \texttt{data\_nascita} & 0,00 \\
+% \texttt{sesso} & 0,00 \\
+% \texttt{mesi\_cvc} & 69,69 \\
+% \texttt{mesi\_fav} & 29,65 \\
+% \texttt{minuti\_dialisi} & 0,00 \\
+% \texttt{ore\_dialisi} & 0,00 \\
+% \texttt{uf\_tot} & 0,19 \\
+% \texttt{qb} & 4,77 \\
+% \texttt{a\_v} & 10,28 \\
+% \texttt{pa\_qb} & 13,67 \\
+% \texttt{pv\_qb} & 14,17 \\
+% \texttt{uf} & 0,27 \\
+% \texttt{dei\_peso} & 99,37 \\
+% \texttt{dpi\_peso} & 99,37 \\
+% \texttt{fosfalcindex} & 97,24 \\
+% \texttt{tsat} & 94,95 \\
+% \texttt{alpha\_epodose\_weight} & 96,86 \\
+% \texttt{alpha\_eri} & 99,83 \\
 
-\end{longtable}
+% \end{longtable}
 
-Tuttavia, i modelli di apprendimento automatico utilizzati non lavorano con dati mancanti: bisogna gestirli. Storicamente ci sono stati vari approcci all'imputazione, tra cui la sostituzione delle righe che presentano valori mancanti con la mediana o con la media della colonna. In questo elaborato verrà utilizzato un approccio più sofisticato, basato sull'imputazione iterativa.
+A seguito delle operazioni di aggregazione e a causa della natura dei dati, che vengono raccolti con periodicità diverse, le righe presentano dei valori mancanti; tuttavia, i modelli di apprendimento automatico utilizzati non lavorano con dati mancanti: bisogna gestirli. Storicamente ci sono stati vari approcci all'imputazione, tra cui la sostituzione delle righe che presentano valori mancanti con la mediana o con la media della colonna. In questo elaborato verrà utilizzato un approccio più sofisticato, basato sull'imputazione iterativa.
 
-Per l'analisi dei dati mancanti, si assume che il meccanismo di missingness sia di tipo \textit{Missing At Random} (MAR), secondo la definizione di Rubin. Tale assunzione costituisce il presupposto metodologico alla base del metodo di imputazione adottato.
+Per l'analisi dei dati mancanti, si assume che il meccanismo di \textit{missingness} sia di tipo \textit{Missing At Random} (MAR), secondo la definizione di Rubin \cite{10.1093/biomet/63.3.581}. Tale assunzione costituisce il presupposto metodologico alla base del metodo di imputazione adottato.
 
-In termini intuitivi, assumere che i dati siano MAR significa assumere che la probabilità che una certa osservazione non sia disponibile può dipendere da informazioni già osservate, ma non dal valore che la misurazione stessa avrebbe assunto se fosse stata rilevata.
+In termini intuitivi, assumere che i dati siano MAR significa assumere che la probabilità che una certa osservazione non sia disponibile può dipendere da informazioni già osservate, ma non dal valore che la misurazione stessa avrebbe assunto se fosse stata rilevata \cite{10.1093/biomet/63.3.581}.
 
 Nel contesto clinico considerato, ad esempio, la probabilità che una misurazione venga effettuata può dipendere dalla storia clinica del paziente, dai valori clinici di altre variabili già rilevate o dalle misurazioni precedenti della stessa variabile. In altre parole, la mancanza di un dato può essere associata ad informazioni già disponibili, senza dipendere direttamente dal valore non osservato in questione. 
 
-Il metodo di imputazione utilizzato è \textit{Multivariate Imputation by Chained Equations} (MICE), combinato con la tecnica \textit{Predictive Mean Matching} (PMM). Il procedimento si basa sull'utilizzo iterativo di modelli predittivi, attraverso i quali vengono stimate le informazioni mancanti sfruttando le relazioni tra le diverse variabili del dataset. In particolare, il funzionamento può essere descritto attraverso i seguenti passaggi:
+Il metodo di imputazione utilizzato è \textit{Multivariate Imputation by Chained Equations} (MICE), combinato con la tecnica \textit{Predictive Mean Matching} (PMM) \cite{MICEINR}. Il procedimento si basa sull'utilizzo iterativo di modelli predittivi, attraverso i quali vengono stimate le informazioni mancanti sfruttando le relazioni tra le diverse variabili del dataset. In particolare, il funzionamento può essere descritto attraverso i seguenti passaggi:
 
 \begin{itemize}
     \item Inizialmente, i valori mancanti vengono sostituiti con valori provvisori, in modo da ottenere un dataset temporaneamente completo.
@@ -638,13 +638,13 @@ Il metodo di imputazione utilizzato è \textit{Multivariate Imputation by Chaine
     \item L'intero ciclo viene ripetuto più volte, in modo da aggiornare iterativamente i valori imputati sulla base delle informazioni disponibili nelle altre variabili.
 \end{itemize}
 
-Nel presente lavoro è stata utilizzata l'implementazione fornita dalla libreria statsmodels, impostando il numero di osservazioni candidate per il PMM a 20 e il numero di iterazioni complete del procedimento a 50. Al termine delle iterazioni è stato estratto il dataset risultante.
+Nel presente lavoro è stata utilizzata l'implementazione fornita dalla libreria statsmodels, impostando il numero di osservazioni candidate per il PMM a 20 e il numero di iterazioni complete del procedimento a 5. Al termine delle iterazioni è stato estratto il dataset risultante.
 
 \section{Preparazione dei dati per i modelli}
 
-Prima di utilizzare il dataset per l'addestramento dei modelli, vengono effettuate alcune trasformazioni per rendere i dati utilizzabili dagli algoritmi di apprendimento automatico. Le variabili categoriche vengono convertite in valori numerici, utilizzando una codifica binaria per il sesso e la codifica one-hot per il tipo di accesso vascolare. Per alcune variabili, come i mesi di utilizzo del CVC e della FAV, i valori mancanti vengono sostituiti con zero, mentre le osservazioni che presentano ancora valori mancanti vengono eliminate.
+Prima di utilizzare il dataset per l'addestramento dei modelli, vengono effettuate alcune trasformazioni per rendere i dati utilizzabili dagli algoritmi di apprendimento automatico. Le variabili categoriche vengono convertite in valori numerici, utilizzando una codifica binaria per il sesso e la codifica \textit{one-hot} per il tipo di accesso vascolare. Per alcune variabili, come i mesi di utilizzo del Catetere Venoso Centrale (CVC) e della Fistola Artero-Venosa (FAV), i valori mancanti vengono sostituiti con zero.
 
-Un'ulteriore trasformazione riguarda i pazienti che, nel corso della propria storia dialitica, hanno utilizzato sia il CVC sia la FAV. In questi casi, qualora siano disponibili entrambi i valori relativi ai mesi di utilizzo, viene mantenuto quello corrispondente al tipo di accesso vascolare utilizzato dal paziente nella specifica seduta di dialisi.
+Un'ulteriore trasformazione riguarda i pazienti che, nel corso della propria storia dialitica, hanno utilizzato sia il CVC sia la FAV. In questi casi, qualora siano disponibili entrambi i valori relativi ai mesi di utilizzo, viene mantenuto quello corrispondente al tipo di accesso vascolare utilizzato dal paziente nella specifica seduta di dialisi, e impostato a zero l'altro.
 
 Vengono inoltre rimosse alcune colonne non necessarie per le successive analisi, come le date relative alla dialisi e alla nascita. Il tempo all'evento e l'indicatore che segnala se l'evento avverso è stato osservato entro l'orizzonte di predizione vengono mantenuti nel dataset per le successive analisi di sopravvivenza, ma non vengono utilizzati come caratteristiche in ingresso del modello. Anche l'identificativo del paziente viene escluso dalle caratteristiche utilizzate per la classificazione.
 
@@ -652,11 +652,13 @@ Infine, le variabili numeriche vengono standardizzate sottraendo la media e divi
 
 \section{Metodologia di training}
 
-Per limitare il rischio di \textit{data leakage}, le osservazioni vengono suddivise in gruppi sulla base dell'identificativo del paziente, in modo da garantire che le osservazioni dello stesso paziente non siano presenti contemporaneamente nel training set e nel test set. La suddivisione tiene inoltre conto della distribuzione delle classi. La standardizzazione viene eseguita all'interno della pipeline del modello: i parametri necessari alla trasformazione vengono calcolati sul training set e successivamente applicati al test set, senza utilizzare quest'ultimo per stimare le scale delle variabili.
+Per limitare il rischio di \textit{data leakage}, ossia l'utilizzo, durante la fase di addestramento, di informazioni provenienti dai dati destinati alla valutazione del modello, le osservazioni vengono suddivise in gruppi sulla base dell'identificativo del paziente. In questo modo, si garantisce che le osservazioni dello stesso paziente non siano presenti contemporaneamente nel training set e nei set utilizzati per la valutazione, evitando che il modello possa sfruttare informazioni relative a pazienti già osservati durante l'addestramento. La suddivisione tiene inoltre conto della distribuzione delle classi, al fine di mantenerne proporzioni quanto più possibile simili nei diversi insiemi.
 
-Per effettuare la suddivisione viene utilizzato StratifiedGroupKFold di scikit-learn. Questo metodo combina la separazione delle osservazioni in base al paziente con la stratificazione rispetto alla variabile target, cercando di mantenere una distribuzione delle classi simile nei diversi fold. In questo modo si evita che le osservazioni dello stesso paziente siano distribuite tra training set e test set, mantenendo al contempo una distribuzione delle classi quanto più possibile rappresentativa di quella complessiva.
+Per effettuare la suddivisione viene utilizzato \textit{StratifiedGroupKFold} di \textit{scikit-learn}, che combina la separazione delle osservazioni in base al paziente con la stratificazione rispetto alla variabile target. In particolare, il metodo genera fold caratterizzati da gruppi non sovrapposti, cercando al contempo di preservare una distribuzione delle classi simile a quella complessiva del dataset. A ogni iterazione, un fold viene utilizzato per la valutazione del modello, mentre i restanti costituiscono il training set.
 
-Per impedire ai modelli di predire continuamente la classe più frequente, viene effettuato un undersampling alla numerosità della classe minoritaria, in modo tale che la distribuzione delle classi risulti equilibrata nel training set, mentre nel test set la distribuzione delle classi sarà quella effettiva del dataset.
+Anche le operazioni di imputazione e standarizzazione vengono effettuate in modo da prevenire possibili fenomeni di \textit{data leakage}. In particolare, queste operazioni vengono eseguite all'interno della pipeline del modello, evitando che le informazioni provenienti dai set di validazione e test concorrano alla stima dei parametri delle trasformazioni. Questi vengono infatti calcolati esclusivamente sul training set e successivamente applicati agli altri insiemi, senza utilizzare questi ultimi per stimare i parametri di imputazione o le scale delle variabili. Tale procedura consente di evitare che informazioni non disponibili durante l'addestramento influenzino il preprocessing, ottenendo una valutazione più attendibile delle prestazioni dei modelli e limitandone la possibile sovrastima.
+
+Per ridurre la tendenza del modello kNN a favorire la classe maggioritaria, viene inoltre effettuato un \textit{undersampling}, riducendone la numerosità fino a renderla pari a quella della classe minoritaria. Questa operazione viene applicata esclusivamente al training set, mentre i set di validazione e test mantengono la distribuzione originale delle classi, in modo da rappresentare la composizione effettiva del dataset e consentire una valutazione delle prestazioni su dati non alterati.
 
 \chapter{Esperimenti e risultati}
 \label{cap:risultati}
