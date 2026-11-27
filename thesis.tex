@@ -1,5 +1,9 @@
 % !TEX root = thesis.tex
 \documentclass[a4paper,12pt]{report}
+
+\usepackage{lmodern}
+\usepackage{microtype}
+
 \usepackage{graphicx} % Required for inserting images
 \usepackage[italian]{babel}
 \usepackage{float}
@@ -9,6 +13,8 @@
 \usepackage{array}
 \usepackage{subcaption}
 \usepackage{url}
+\usepackage{icomma}
+\usepackage[T1]{fontenc}
 \usepackage[hidelinks]{hyperref}
 \usepackage[
     backend=biber,
@@ -18,12 +24,7 @@
 \usepackage{csquotes}
 \addbibresource{bibliografia.bib}
 
-% \title{Relazione di Tirocinio}
-% \author{Marco Di Giovannantonio}
-
 \begin{document}
-
-% \maketitle
 
 \tableofcontents
 
@@ -32,9 +33,9 @@
 
 \section{Motivazione e contesto clinico}
 
-I reni svolgono diverse funzioni fondamentali per il corretto funzionamento dell'organismo umano: tra queste rientrano la filtrazione del sangue e l'eliminazione delle sostanze di scarto derivanti dal metabolismo, la regolazione dell'equilibrio idrico ed elettrolitico e la produzione di alcuni ormoni essenziali\cite{ogobuiro2023physiology}. Ne consegue che, quando la funzionalità renale risulta gravemente compromessa, può essere necessario ricorrere a una terapia sostitutiva, come la dialisi, per compensare almeno in parte tale perdita\cite{LOK2020S1}.
+I reni svolgono diverse funzioni fondamentali per il corretto funzionamento dell'organismo umano: tra queste rientrano la filtrazione del sangue e l'eliminazione delle sostanze di scarto derivanti dal metabolismo, la regolazione dell'equilibrio idrico ed elettrolitico e la produzione di alcuni ormoni essenziali~\cite{ogobuiro2023physiology}. Ne consegue che, quando la funzionalità renale risulta gravemente compromessa, può essere necessario ricorrere a una terapia sostitutiva, come la dialisi, per compensare almeno in parte tale perdita~\cite{LOK2020S1}.
 
-La dialisi consente di rimuovere dal sangue numerose sostanze di scarto e di contribuire alla regolazione dell'equilibrio dei liquidi e degli elettroliti, tra cui sodio, potassio, calcio e fosforo. Si tratta di una terapia fondamentale per molti pazienti affetti da insufficienza renale avanzata, il cui percorso clinico richiede un monitoraggio regolare delle condizioni di salute\cite{NANOVIC2005}.
+La dialisi consente di rimuovere dal sangue numerose sostanze di scarto e di contribuire alla regolazione dell'equilibrio dei liquidi e degli elettroliti, tra cui sodio, potassio, calcio e fosforo. Si tratta di una terapia fondamentale per molti pazienti affetti da insufficienza renale avanzata, il cui percorso clinico richiede un monitoraggio regolare delle condizioni di salute~\cite{NANOVIC2005}.
 
 Durante il trattamento vengono raccolte diverse tipologie di misurazioni, che possono essere distinte, sulla base della natura dei dati considerati in questo lavoro, in tre categorie:
 \begin{itemize}
@@ -45,31 +46,31 @@ Durante il trattamento vengono raccolte diverse tipologie di misurazioni, che po
 
 Queste misurazioni, raccolte con frequenze e modalità differenti, permettono di descrivere l'evoluzione delle condizioni cliniche del paziente nel tempo. La loro osservazione longitudinale assume particolare rilevanza nei pazienti sottoposti a dialisi, per i quali l'insorgenza di complicazioni può richiedere interventi clinici specifici o il ricovero ospedaliero.
 
-Un esempio significativo riguarda l'accesso vascolare, necessario per consentire l'esecuzione del trattamento dialitico. Esso costituisce una via di accesso al sistema circolatorio attraverso la quale il sangue viene prelevato e successivamente reimmesso nel paziente durante la terapia. Il deterioramento della sua funzionalità può rendere necessari interventi specifici e, nei casi più complessi, la predisposizione di un nuovo accesso\cite{LOK2020S1}. Poiché la gestione delle complicazioni associate all'accesso vascolare può comportare procedure invasive e costi significativi\cite{AVCCostItaly2024}, risulta importante disporre di informazioni che contribuiscano a una migliore valutazione delle condizioni cliniche del paziente.
+Un esempio significativo riguarda l'accesso vascolare, necessario per consentire l'esecuzione del trattamento dialitico. Esso costituisce una via di accesso al sistema circolatorio attraverso la quale il sangue viene prelevato e successivamente reimmesso nel paziente durante la terapia. Il deterioramento della sua funzionalità può rendere necessari interventi specifici e, nei casi più complessi, la predisposizione di un nuovo accesso~\cite{LOK2020S1}. Poiché la gestione delle complicazioni associate all'accesso vascolare può comportare procedure invasive e costi significativi~\cite{AVCCostItaly2024}, risulta importante disporre di informazioni che contribuiscano a una migliore valutazione delle condizioni cliniche del paziente.
 
 In questo contesto, l'analisi longitudinale delle misurazioni raccolte durante il percorso dialitico rappresenta un'opportunità per studiare la relazione tra l'evoluzione delle caratteristiche cliniche del paziente e l'insorgenza di eventi avversi. Le tecniche di apprendimento automatico offrono strumenti per analizzare tali informazioni e individuare schemi nei dati potenzialmente utili a distinguere situazioni caratterizzate da una diversa distanza temporale dall'evento.
 
 \section{Obiettivo}
 
-Il presente lavoro si propone di valutare l'applicabilità di tecniche di apprendimento automatico alla classificazione del tempo che intercorre tra una seduta di dialisi e il primo evento avverso considerato; in particolare, ai fini del lavoro, l'endpoint è definito come il primo, in ordine cronologico, tra due eventi: il ricovero per accesso vascolare (AV) e il decesso.
+Il presente lavoro si propone di valutare l'applicabilità di tecniche di apprendimento automatico alla classificazione del tempo che intercorre tra una seduta di dialisi e il primo evento avverso considerato; in particolare, ai fini del lavoro, l'endpoint è definito come il primo, in ordine cronologico, tra due eventi: il ricovero per accesso vascolare (AV) e il decesso. L'endpoint composito e le soglie cliniche di riferimento per la classificazione del rischio sono stati definiti in accordo con il team clinico di riferimento.
 
 A tale scopo, le misurazioni longitudinali dei pazienti vengono elaborate attraverso due differenti approcci: il primo rappresenta le misurazioni raccolte in una finestra temporale precedente alla seduta mediante il calcolo dei valori medi dei singoli parametri, mentre il secondo descrive invece il loro andamento nel tempo attraverso i coefficienti di una regressione lineare, pendenza e intercetta. L'ampiezza della finestra temporale per entrambi gli approcci è definita da un parametro espresso in giorni.
 
-Le rappresentazioni ottenute vengono utilizzate per confrontare due differenti architetture di classificazione: il classificatore K-Nearest Neighbors (kNN) e una rete neurale Long Short-Term Memory (LSTM). Successivamente, l'analisi si concentra sull'architettura LSTM, approfondendo l'influenza dell'ampiezza della finestra temporale, delle strategie di gestione dei valori mancanti, dell'introduzione di un punteggio di freschezza delle misurazioni e dell'impiego di funzioni di loss specifiche per problemi di classificazione ordinale.
+Le rappresentazioni ottenute vengono utilizzate per confrontare due differenti architetture di classificazione: il classificatore k-Nearest Neighbors (kNN) e una rete neurale Long Short-Term Memory (LSTM). Successivamente, l'analisi si concentra sull'architettura LSTM, approfondendo l'influenza dell'ampiezza della finestra temporale, delle strategie di gestione dei valori mancanti, dell'introduzione di un punteggio di freschezza delle misurazioni e dell'impiego di funzioni di loss specifiche per problemi di classificazione ordinale.
 
 La valutazione viene condotta considerando sia le prestazioni di classificazione, attraverso la Balanced Accuracy, sia la capacità dei modelli di distinguere gruppi di pazienti caratterizzati da differenti profili di sopravvivenza, mediante lo stimatore di Kaplan-Meier.
 
-Il contributo del lavoro consiste quindi nell'analizzare come la rappresentazione temporale delle misurazioni e le strategie adottate per gestirne la disponibilità e l'anzianità influenzino la capacità dei modelli di classificare il rischio. Particolare attenzione viene dedicata al compromesso tra l'identificazione dei pazienti maggiormente esposti a eventi avversi nel breve termine e la corretta individuazione di quelli caratterizzati da un rischio più contenuto.
+L'elaborato mostra come, nella modellazione di serie cliniche longitudinali eterogenee, la scelta della rappresentazione temporale e della gestione dell'anzianità dei dati incida direttamente sull'efficacia operativa del classificatore. In particolare, i risultati sperimentali evidenziano che l'architettura ricorrente LSTM supera il classificatore statico kNN e che la combinazione tra regressione ordinale (loss CORN), \textit{Last Observation Carried Forward} (LOCF) e punteggio di freschezza su una finestra di 30 giorni massimizza l'identificazione dei pazienti ad alto rischio nel breve termine, mantenendo al contempo un'elevata affidabilità sulla classe a basso rischio.
 
 \section{Introduzione alle reti neurali LSTM}
 
 Le reti neurali tradizionali, dette anche reti feedforward, elaborano le informazioni attraverso una successione di trasformazioni, senza mantenere uno stato interno che venga aggiornato tra i diversi elementi di una sequenza. Questa caratteristica può rappresentare un limite quando si considerano dati sequenziali, nei quali l'ordine degli elementi e le relazioni tra osservazioni successive o distanti nel tempo assumono un ruolo fondamentale. Si pensi, ad esempio, all'elaborazione del linguaggio naturale: per comprendere una frase è necessario considerare non soltanto le singole parole, ma anche il contesto fornito da quelle precedenti.
 
-Per affrontare questo problema sono state introdotte le Reti Neurali Ricorrenti (\textit{Recurrent Neural Networks}, RNN)\cite{RNNELMAN1990179}. L'idea alla base di queste architetture consiste nell'introdurre delle connessioni ricorrenti, attraverso le quali le informazioni elaborate in un passaggio vengono trasmesse a quello successivo. In particolare, la rete mantiene uno stato interno, chiamato \textit{hidden state}, che viene aggiornato a ogni nuovo input e consente di conservare informazioni relative agli elementi precedentemente elaborati. In questo modo, la rete può processare una sequenza un elemento alla volta, tenendo conto delle informazioni acquisite nei passaggi precedenti.
+Per affrontare questo problema sono state introdotte le Reti Neurali Ricorrenti (\textit{Recurrent Neural Networks}, RNN)~\cite{RNNELMAN1990179}. L'idea alla base di queste architetture consiste nell'introdurre delle connessioni ricorrenti, attraverso le quali le informazioni elaborate in un passaggio vengono trasmesse a quello successivo. In particolare, la rete mantiene uno stato interno, chiamato \textit{hidden state}, che viene aggiornato a ogni nuovo input e consente di conservare informazioni relative agli elementi precedentemente elaborati. In questo modo, la rete può processare una sequenza un elemento alla volta, tenendo conto delle informazioni acquisite nei passaggi precedenti.
 
-Tuttavia, quando le informazioni rilevanti sono molto distanti tra loro all'interno di una sequenza, le RNN tradizionali possono incontrare difficoltà nell'apprendere le relazioni che le collegano. Una delle principali cause è il fenomeno della scomparsa del gradiente (\textit{vanishing gradient})\cite{VanishingGradient1994}, che durante l'addestramento rende sempre più difficile aggiornare i pesi della rete sulla base di informazioni provenienti da passaggi temporali lontani. In questo modo, l'influenza degli input precedenti può attenuarsi al punto da compromettere l'apprendimento delle dipendenze a lungo termine.
+Tuttavia, quando le informazioni rilevanti sono molto distanti tra loro all'interno di una sequenza, le RNN tradizionali possono incontrare difficoltà nell'apprendere le relazioni che le collegano. Una delle principali cause è il fenomeno della scomparsa del gradiente (\textit{vanishing gradient})~\cite{VanishingGradient1994}, che durante l'addestramento rende sempre più difficile aggiornare i pesi della rete sulla base di informazioni provenienti da passaggi temporali lontani. In questo modo, l'influenza degli input precedenti può attenuarsi al punto da compromettere l'apprendimento delle dipendenze a lungo termine.
 
-Per mitigare questo problema sono state introdotte le reti Long Short-Term Memory (LSTM)\cite{LSTM/neco.1997.9.8.1735}, una particolare tipologia di rete neurale ricorrente progettata per gestire meglio le dipendenze a lungo termine. Queste architetture introducono una cella di memoria (\textit{cell state}), che permette di conservare informazioni rilevanti attraverso i diversi passaggi temporali, e un sistema di porte (\textit{gates}) che regola il flusso delle informazioni. In particolare, la \textit{Forget Gate}\cite{LSTMForgetGate2000} stabilisce quali informazioni mantenere o rimuovere dalla memoria, la \textit{Input Gate} seleziona quali nuove informazioni introdurre nella cella di memoria, mentre la \textit{Output Gate} determina quali informazioni utilizzare per aggiornare lo stato nascosto. Grazie a questa struttura, le LSTM possono preservare informazioni rilevanti per intervalli temporali più ampi rispetto alle RNN tradizionali, mitigando il problema della scomparsa del gradiente.
+Per mitigare questo problema sono state introdotte le reti Long Short-Term Memory (LSTM)~\cite{LSTM/neco.1997.9.8.1735}, una particolare tipologia di rete neurale ricorrente progettata per gestire meglio le dipendenze a lungo termine. Queste architetture introducono una cella di memoria (\textit{cell state}), che permette di conservare informazioni rilevanti attraverso i diversi passaggi temporali, e un sistema di porte (\textit{gates}) che regola il flusso delle informazioni. In particolare, la \textit{Forget Gate}~\cite{LSTMForgetGate2000} stabilisce quali informazioni mantenere o rimuovere dalla memoria, l'\textit{Input Gate} seleziona quali nuove informazioni introdurre nella cella di memoria, mentre l'\textit{Output Gate} determina quali informazioni utilizzare per aggiornare lo stato nascosto. Grazie a questa struttura, le LSTM possono preservare informazioni rilevanti per intervalli temporali più ampi rispetto alle RNN tradizionali, mitigando il problema della scomparsa del gradiente.
 
 \section{Ambito del progetto d'esame}
 
@@ -81,7 +82,7 @@ Il progetto di tirocinio si pone in continuità con le attività precedenti e ne
 
 \section{Struttura}
 
-Il presente elaborato è organizzato come segue: il Capitolo~\ref{cap:dataset} descrive i dati utilizzati, la loro raccolta e la costruzione del dataset; il Capitolo~\ref{cap:metodo} presenta l'approccio metodologico: la definizione delle classi di rischio, le due rappresentazioni delle misurazioni, il classificatore kNN, il classificatore LSTM, la gestione degli outlier e la gestione dei missing; il Capitolo~\ref{cap:risultati} riporta gli esperimenti svolti e i risultati ottenuti. Infine il Capitolo~\ref{cap:conclusioni} sintetizza le conclusioni raggiunte al termine del lavoro.
+Il presente elaborato è organizzato come segue: il Capitolo~\ref{cap:dataset} descrive la base di dati, l'analisi esplorativa delle variabili e la costruzione del dataset a livello di seduta; il Capitolo~\ref{cap:metodo} illustra l'approccio metodologico, coprendo la definizione delle classi di rischio, le due rappresentazioni temporali delle misurazioni, la gestione di outlier e valori mancanti, la preparazione delle sequenze, il protocollo di validazione e addestramento e la selezione multi-obiettivo tramite stimatore di Kaplan--Meier e frontiera di Pareto; il Capitolo~\ref{cap:risultati} presenta il confronto iniziale tra kNN e LSTM, le varianti sperimentali sviluppate e la discussione complessiva dei risultati. Infine, il Capitolo~\ref{cap:conclusioni} sintetizza le conclusioni raggiunte al termine del lavoro.
 
 \chapter{Dataset e preparazione dei dati}
 \label{cap:dataset}
@@ -148,14 +149,12 @@ Vena & mmHg & M & Pressione dinamica venosa. \\
 A/V & --- & C & Rapporto tra pressione arteriosa e pressione venosa: $\V{Arter}/\V{Vena}$. \\
 PA/QB & mmHg\slash(mL/min) & C & Pressione arteriosa normalizzata per il flusso ematico: $\V{Arter}/\V{QB}$. \\
 PV/QB & mmHg\slash(mL/min) & C & Pressione venosa normalizzata per il flusso ematico: $\V{Vena}/\V{QB}$. \\
-Azotemia pre & mg/dL & M & Azoto ureico (BUN) prima della seduta. \\
-Azotemia post & mg/dL & M & Azoto ureico (BUN) dopo la seduta. \\
 \midrule
 
 \multicolumn{4}{@{}l}{\textbf{Valori nutrizionali}} \\
 \midrule
 BMI & kg/m$^2$ & M & Indice di massa corporea. \\
-Circonferenza braccio & cm & M & Circonferenza del braccio. \\
+Circonferenza Braccio & cm & M & Circonferenza del braccio. \\
 DPI & g/giorno & M & Apporto proteico alimentare (\emph{dietary protein intake}). \\
 DEI & kcal/giorno & M & Apporto energetico alimentare (\emph{dietary energy intake}). \\
 DPI/Peso & g/(giorno$\cdot$kg) & C & Rapporto tra apporto proteico alimentare e peso post: $\V{DPI}/\V{Peso post}$. \\
@@ -170,17 +169,19 @@ Colesterolemia & mg/dL & M & Concentrazione sierica di colesterolo. \\
 \multicolumn{4}{@{}l}{\textbf{Valori di laboratorio e terapia}} \\
 \midrule
 Hb & g/dL & M & Emoglobina. \\
+Azotemia Pre & mg/dL & M & Azoto ureico (BUN) prima della seduta. \\
+Azotemia Post & mg/dL & M & Azoto ureico (BUN) dopo la seduta. \\
 Sideremia & $\mu$g/dL & M & Concentrazione sierica di ferro. \\
 Transferrina & mg/dL & M & Concentrazione sierica di transferrina. \\
 Ferritina & ng/mL & M & Concentrazione sierica di ferritina. \\
-TSAT & \% & C & Saturazione della transferrina: $\V{Sideremia}/(\V{Transferrina}\cdot 1.42)\cdot 100$. \\
-Dosaggio epoetina alpha mensile & UI & M & Dose mensile di epoetina alfa. \\
-Alpha EPODose Weight & UI/(kg$\cdot$sett.) & C & Dose settimanale di epoetina per kg: $(\V{Dosaggio epoetina alpha mensile}/30\cdot 7)/\V{Peso post}$. \\
+TSAT & \% & C & Saturazione della transferrina: $\V{Sideremia}/(\V{Transferrina}\cdot 1,42)\cdot 100$. \\
+Dosaggio Epoetina Alpha mensile & UI & M & Dose mensile di epoetina alfa. \\
+Alpha EPODose Weight & UI/(kg$\cdot$sett.) & C & Dose settimanale di epoetina per kg: $(\V{Dosaggio Epoetina Alpha mensile}/30\cdot 7)/\V{Peso post}$. \\
 Alpha ERI & UI\slash(kg$\cdot$sett.)\slash(g/dL) & C & Indice di resistenza all'eritropoietina: $\V{Alpha EPODose Weight}/\V{Hb}$. \\
 Calcemia & mg/dL & M & Concentrazione sierica di calcio. \\
 Fosforemia & mg/dL & M & Concentrazione sierica di fosforo. \\
 PTH & pg/mL & M & Concentrazione del paratormone. \\
-Fosfatasi alcalina & UI/L & M & Attività sierica della fosfatasi alcalina. \\
+Fosfatasi Alcalina & UI/L & M & Attività sierica della fosfatasi alcalina. \\
 FosfAlcIndex & --- & C & Fosfatasi alcalina normalizzata a 120 UI/L: $\V{Fosfatasi alcalina}/120$. \\
 Vitamina D & ng/mL & M & Concentrazione di vitamina D. \\
 Bicarbonatemia & mEq/L & M & Concentrazione sierica di bicarbonato. \\
@@ -189,8 +190,8 @@ Bicarbonatemia & mEq/L & M & Concentrazione sierica di bicarbonato. \\
 
 I dati sono stati organizzati in varie tabelle relazionali; vengono introdotte quelle utilizzate maggiormente in questo elaborato: 
 \begin{itemize}
-    \item Patient.PropertyMeasure, tabella che contiene tutte le misurazioni, l'identificativo del paziente a cui si riferiscono e l'identificativo dell'evento a cui si riferiscono; quest'ultimo può essere vuoto.
-    \item Patient.PatientEvent, tabella che contiene tutti gli eventi e l'identificativo del paziente a cui si riferisce; di questa tabella fanno parte i ricoveri per accesso vascolare, i decessi, i ricoveri per altro, e le sedute di dialisi.
+    \item \texttt{Patient.PropertyMeasure}, tabella che contiene tutte le misurazioni, l'identificativo del paziente a cui si riferiscono e l'identificativo dell'evento a cui si riferiscono; quest'ultimo può essere vuoto.
+    \item \texttt{Patient.PatientEvent}, tabella che contiene tutti gli eventi e l'identificativo del paziente a cui si riferisce; di questa tabella fanno parte i ricoveri per accesso vascolare, i decessi, i ricoveri per altre cause, e le sedute di dialisi.
 \end{itemize}
 
 Per dare una visione d'insieme al lettore e consentirgli di familiarizzare con i dati, per quanto possibile, vengono riportati i seguenti dati macroscopici:
@@ -202,9 +203,9 @@ Per dare una visione d'insieme al lettore e consentirgli di familiarizzare con i
     \item Pazienti distinti con evento avverso dopo l'inizio della storia dialitica: 1201.
 \end{itemize}
 
-È opportuno chiarire la discrepanza tra i pazienti distinti con ricovero per accesso vascolare (1941) e i pazienti distinti con evento avverso dopo l'inizio della storia dialitica (1201): tale discrepanza potrebbe essere spiegata dall'ipotesi che, per alcuni pazienti, il primo ricovero per accesso vascolare sia finalizzato alla predisposizione dell'accesso stesso e preceda l'inizio effettivo del trattamento dialitico. Di conseguenza, ai fini della presente analisi, l'inizio della storia clinica del paziente viene fatta coincidere con la prima seduta dialitica, mentre viene considerato come primo evento avverso quello eventualmente verificatosi successivamente a tale data.
+È opportuno chiarire la discrepanza tra i pazienti distinti con ricovero per accesso vascolare (1941) e i pazienti distinti con evento avverso dopo l'inizio della storia dialitica (1201): tale discrepanza potrebbe essere spiegata dall'ipotesi che, per alcuni pazienti, il primo ricovero per accesso vascolare sia finalizzato alla predisposizione dell'accesso stesso e preceda l'inizio effettivo del trattamento dialitico. Di conseguenza, ai fini della presente analisi, l'inizio della storia clinica del paziente viene fatto coincidere con la prima seduta dialitica, mentre viene considerato come primo evento avverso quello eventualmente verificatosi successivamente a tale data.
 
-La Figura \ref{fig:dialysis_sess_boxplot} mostra la distribuzione del numero di sedute di dialisi per paziente per i pazienti nella popolazione considerata.
+La Figura~\ref{fig:dialysis_sess_boxplot} mostra la distribuzione del numero di sedute di dialisi per paziente per i pazienti nella popolazione considerata.
 
 \begin{figure}[H]
     \centering
@@ -213,30 +214,30 @@ La Figura \ref{fig:dialysis_sess_boxplot} mostra la distribuzione del numero di 
     \label{fig:dialysis_sess_boxplot}
 \end{figure}
 
-La Tabella \ref{tab:intervalli_dialisi} mostra le distribuzioni degli intervalli in giorni che intercorrono tra sedute consecutive di dialisi di uno stesso paziente.
+La Tabella~\ref{tab:intervalli_dialisi} mostra le distribuzioni degli intervalli in giorni che intercorrono tra sedute consecutive di dialisi di uno stesso paziente.
 
 \begin{table}[H]
 \centering
 \caption{Distribuzione degli intervalli in giorni tra sedute consecutive di dialisi}
 \label{tab:intervalli_dialisi}
 
-\begin{tabular}{|l|c|}
-\hline
+\begin{tabular}{lr}
+\toprule
 \textbf{Statistica} & \textbf{Intervallo (giorni)} \\
-\hline
-$5^{\circ}$ percentile & 1,799 \\
-$10^{\circ}$ percentile & 1,986 \\
-$25^{\circ}$ percentile & 2,000 \\
+\midrule
+5$^{\circ}$ percentile & 1,799 \\
+10$^{\circ}$ percentile & 1,986 \\
+25$^{\circ}$ percentile & 2,000 \\
 Mediana & 2,000 \\
-$75^{\circ}$ percentile & 3,000 \\
-$90^{\circ}$ percentile & 3,003 \\
-\hline
+75$^{\circ}$ percentile & 3,000 \\
+90$^{\circ}$ percentile & 3,003 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
-I valori riportati mostrano che la mediana dell'intervallo tra due sedute consecutive è pari a 2 giorni. Si osserva tuttavia una certa variabilità, evidenziata dalla differenza tra il 25$^\circ$ e il 75$^\circ$ percentile, che assume rispettivamente valori pari a 2 e 3 giorni
+I valori riportati mostrano che la mediana dell'intervallo tra due sedute consecutive è pari a 2 giorni. Si osserva tuttavia una certa variabilità, evidenziata dalla differenza tra il 25$^\circ$ e il 75$^\circ$ percentile, che assume rispettivamente valori pari a 2 e 3 giorni.
 
-La Tabella \ref{tab:percentili_proprieta} mostra la distribuzione dei tempi che intercorrono tra una misurazione di laboratorio o nutrizionale e la seduta di dialisi successiva più vicina nel tempo.
+La Tabella~\ref{tab:percentili_proprieta} mostra la distribuzione dei tempi che intercorrono tra una misurazione di laboratorio o nutrizionale e la seduta di dialisi successiva più vicina nel tempo.
 
 \begin{table}[H]
 \centering
@@ -248,7 +249,7 @@ La Tabella \ref{tab:percentili_proprieta} mostra la distribuzione dei tempi che 
 
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{lrrrrrrr}
-\hline
+\toprule
 \textbf{Proprietà} &
 \textbf{P25} &
 \textbf{P50} &
@@ -257,7 +258,7 @@ La Tabella \ref{tab:percentili_proprieta} mostra la distribuzione dei tempi che 
 \textbf{P85} &
 \textbf{P90} &
 \textbf{P95} \\
-\hline
+\midrule
 Albuminemia & 0,292 & 0,521 & 1,708 & 1,757 & 5,500 & 74,750 & 146,562 \\
 Azotemia Post & 0,292 & 0,521 & 1,708 & 1,792 & 4,505 & 64,640 & 154,500 \\
 Azotemia Pre & 0,292 & 0,507 & 1,698 & 1,753 & 6,708 & 65,271 & 154,271 \\
@@ -279,7 +280,7 @@ PTH & 0,292 & 0,524 & 1,708 & 1,792 & 10,441 & 70,492 & 161,667 \\
 Sideremia & 0,299 & 0,542 & 1,792 & 2,022 & 4,492 & 57,660 & 154,543 \\
 Transferrina & 0,292 & 0,528 & 1,708 & 1,792 & 11,708 & 65,971 & 156,289 \\
 Vitamina D & 0,295 & 0,542 & 1,771 & 11,458 & 75,098 & 92,708 & 182,500 \\
-\hline
+\bottomrule
 \end{tabular}%
 }
 \vspace{2mm}
@@ -292,6 +293,7 @@ I valori sono espressi in giorni.
 I valori riportati evidenziano una notevole variabilità nella frequenza di raccolta delle diverse misurazioni. Alcune proprietà presentano osservazioni frequentemente disponibili a breve distanza dalle sedute di dialisi, mentre altre sono caratterizzate da intervalli temporali considerevolmente più ampi. Questa eterogeneità rende necessario adottare criteri specifici per ciascuna proprietà nella successiva associazione delle misurazioni alle sedute.
 
 \section{Produzione del dataset}
+\label{sec:dataset_production}
 
 A partire dalle tabelle del DBMS, è stato costruito un dataset che associa a ciascuna seduta di dialisi le misurazioni disponibili per il relativo paziente. Poiché le diverse tipologie di misurazioni non sono necessariamente collegate direttamente a un evento di dialisi, sono state adottate modalità differenti per associarle alla seduta.
 
@@ -303,11 +305,11 @@ In particolare, è stato utilizzato il seguente approccio:
     \item Per le variabili che non cambiano o che cambiano raramente nel tempo, come il tipo di accesso vascolare, è stato recuperato l'ultimo valore osservato alla data della seduta di dialisi.
 \end{itemize}
 
-I pazienti che non hanno avuto un evento avverso nel periodo di osservazione vengono ugualmente considerati ai fini dell'analisi di sopravvivenza, in quanto forniscono informazioni utili: non verranno dunque esclusi dal dataset.
-
 La definizione dei criteri temporali per l'associazione delle misurazioni è stata preceduta da un'analisi delle distanze temporali tra le sedute di dialisi e tra le misurazioni e le relative sedute. In primo luogo, è stata analizzata la distribuzione degli intervalli tra sedute consecutive dello stesso paziente, riportata nella Tabella~\ref{tab:intervalli_dialisi}. Questa analisi consente di caratterizzare la frequenza delle sedute e di individuare gli intervalli temporali più comuni tra due trattamenti consecutivi. Successivamente, è stata studiata la distanza temporale tra ciascuna misurazione e la seduta di dialisi a cui potrebbe essere associata. La Tabella~\ref{tab:percentili_proprieta} riporta, per ogni proprietà, alcuni percentili della distribuzione di tali distanze, espressi in giorni. Questi valori permettono di valutare la disponibilità delle misurazioni e la loro effettiva vicinanza temporale alle sedute di dialisi.
 
-Sulla base di queste analisi sono stati definiti i parametri \(age_m\), specifici per ciascuna proprietà, utilizzati per stabilire l'intervallo temporale massimo entro cui una misurazione può essere associata a una seduta. In particolare, ai fini del lavoro, è stata impostata come soglia massima il 10$^{\circ}$ percentile degli intervalli tra sedute di dialisi: di ogni proprietà è stato scelto il percentile che più si avvicinava a esso ed è stato applicato un arrotondamento per eccesso alla prima o seconda cifra decimale; per le proprietà con il 75$^{\circ}$ percentile più alto della soglia massima, è stata presa la soglia massima. Tale analisi è necessaria perché limita il bias statistico introdotto dal \textit{Last Observation Carried Forward} (LOCF).
+Sulla base di queste analisi sono stati definiti i parametri \(age_m\) specifici per ciascuna proprietà, che fissano l'intervallo temporale massimo entro cui una misurazione può essere associata a una seduta. In particolare, è stata impostata come soglia massima di riferimento il 10$^{\circ}$ percentile degli intervalli tra sedute consecutive di dialisi (pari a \(1{,}986\) giorni in Tabella~\ref{tab:intervalli_dialisi}): per ciascuna proprietà è stato individuato in Tabella~\ref{tab:percentili_proprieta} il percentile più vicino a tale valore, arrotondato per eccesso alla prima o seconda cifra decimale (ad esempio, per la \texttt{Calcemia} il valore più prossimo è l'80$^{\circ}$ percentile, pari a \(1{,}977\) giorni); per le proprietà il cui 75$^{\circ}$ percentile supera già la soglia massima (come \texttt{BCM post}, pari a \(2{,}854\) giorni), è stata invece imposta direttamente la soglia massima stessa.
+
+Questa soglia di validità consente di limitare il bias statistico introdotto dal \textit{Last Observation Carried Forward} (LOCF), ovvero la propagazione indefinita dell'ultima misurazione disponibile anche quando divenuta clinicamente obsoleta. Nella pipeline \textit{baseline}, le rilevazioni oltre \(age_m\) vengono quindi scartate e i valori mancanti residui sono demandati alla fase di imputazione (Sezione~\ref{sec:missing}); un'alternativa basata esplicitamente su LOCF modulato da un indice di freschezza sarà invece valutata nella Sezione~\ref{sec:locf_and_freshness}.
 
 Il dataset risultante è organizzato a livello di seduta: ciascuna riga identifica un paziente, la data della seduta di dialisi e l'insieme delle misurazioni associate secondo i criteri descritti; le righe sono ordinate per paziente e per data di dialisi.
 
@@ -331,7 +333,7 @@ A ciascuna seduta viene quindi associata anche una variabile binaria, denominata
 \end{cases}
 \]
 
-Pertanto, un valore pari a 1 identifica le osservazioni caratterizzate dalla presenza di un evento avverso strettamente entro l'orizzonte temporale, mentre un valori pari a 0 identifica quelle per le quali non viene osservato alcun evento avverso entro tale intervallo.
+Pertanto, un valore pari a 1 identifica le osservazioni caratterizzate dalla presenza di un evento avverso strettamente entro l'orizzonte temporale, mentre un valore pari a 0 identifica quelle per le quali non viene osservato alcun evento avverso entro tale intervallo.
 
 Le osservazioni relative ai pazienti per i quali non viene registrato alcun evento avverso non vengono escluse a priori, poiché forniscono informazioni utili per l'analisi. Tuttavia, per assegnare correttamente il valore 0 alla variabile \texttt{event\_observed}, è necessario disporre di un periodo di osservazione di almeno 400 giorni successivi alla seduta di dialisi. Per questo motivo, vengono escluse le singole osservazioni relative ai pazienti senza evento avverso per le quali il follow-up disponibile risulta inferiore a tale intervallo.
 
@@ -339,7 +341,7 @@ Le osservazioni relative ai pazienti per i quali non viene registrato alcun even
 \label{cap:metodo}
 \section{Specifiche tecniche}
 
-Il presente lavoro di tesi adotta un'impostazione di tipo \textit{dynamic landmark}, nel quale ciascuna seduta di dialisi costituisce un nuovo punto di riferimento temporale rispetto al quale viene aggiornata la previsione; tale riferimento temporale è dunque sia un \textit{landmark time} sia un \textit{prediction time} \cite{VANHOUWELINGENDL2006}. Vengono inoltre utilizzati due approcci diversi per la gestione e la classificazione del rischio.
+Il presente lavoro adotta un'impostazione di tipo \textit{dynamic landmark}, nel quale ciascuna seduta di dialisi costituisce un nuovo punto di riferimento temporale rispetto al quale viene aggiornata la previsione; tale riferimento temporale è dunque sia un \textit{landmark time} sia un \textit{prediction time}~\cite{VANHOUWELINGENDL2006}. Vengono inoltre utilizzati due approcci diversi per la gestione e la classificazione del rischio.
 
 Sia \(D\) il dataset, composto da righe della forma:
 \[
@@ -454,7 +456,7 @@ m
 \overline{t}_{p,d,f}^{(w)}
 \]
 
-Dove \(\overline{t}_{p,d,f}^{(w)}\) indica la media degli scarti temporali \(t-d\), espressi in giorni, relativi alle osservazioni della feature \(f\) appartenenti all'insieme \(\mathcal{M}_{p,d,f}^{*(w)}\); \(\overline{Y}_{p,d,f}^{(w)}\) indica la media dei corrispondenti valori osservati della feature \(f\), per il paziente \(p\), nella finestra temporale \([d-w,d]\). I coefficienti \(\hat{\beta}_{1,p,d,f}^{(w)}\) e \(\hat{\beta}_{0,p,d,f}^{(w)}\) rappresentano, rispettivamente, la pendenza e l'intercetta stimate della retta di regressione.
+dove \(\overline{t}_{p,d,f}^{(w)}\) indica la media degli scarti temporali \(t-d\), espressi in giorni, relativi alle osservazioni della feature \(f\) appartenenti all'insieme \(\mathcal{M}_{p,d,f}^{*(w)}\); \(\overline{Y}_{p,d,f}^{(w)}\) indica la media dei corrispondenti valori osservati della feature \(f\), per il paziente \(p\), nella finestra temporale \([d-w,d]\). I coefficienti \(\hat{\beta}_{1,p,d,f}^{(w)}\) e \(\hat{\beta}_{0,p,d,f}^{(w)}\) rappresentano, rispettivamente, la pendenza e l'intercetta stimate della retta di regressione.
 
 Il dataset ottenuto, denominato dataset B, mantiene le colonne originali e aggiunge, per ciascuna feature numerica considerata, i coefficienti della regressione lineare stimati nella relativa finestra temporale.
 
@@ -482,16 +484,6 @@ d,p,
 \right)
 \]
 
-% Sia \(w\) l'ampiezza, espressa in giorni, della finestra temporale considerata e sia \(d\) la data della seduta di dialisi di riferimento. Per ogni paziente e per ciascuna variabile clinica, vengono considerate le misurazioni disponibili nell'intervallo temporale \([d-w,d]\), estremi inclusi. La coppia formata dall'id dell'evento di dialisi e dall'id del paziente identificano univocamente un insieme di misurazioni effettuato alla data \(d\).
-
-% A partire dal dataset originale vengono costruite due rappresentazioni alternative delle misurazioni, attraverso due approcci differenti. Per entrambe le rappresentazioni, la sliding window è fissata a 30 giorni (non più vero, adesso ho sliding window di 30, 60, 90, 120, 150, 180 giorni, ma fa parte degli esperimenti quindi non va detto in questo capitolo.).
-
-% Nel primo approccio, per ogni riga del dataset originale e per ciascuna variabile clinica considerata, viene calcolata la media dei valori osservati nella finestra temporale di riferimento. In questo modo, ogni riga del nuovo dataset contiene, per ciascuna variabile, il valore medio delle misurazioni disponibili nell'intervallo considerato. Il dataset ottenuto viene denominato dataset A.
-
-% Nel secondo approccio, per ogni riga del dataset originale e per ciascuna variabile clinica considerata, viene stimata una regressione lineare sui valori osservati nella stessa finestra temporale. Per ogni variabile vengono estratti i coefficienti della retta stimata, ovvero la pendenza e l'intercetta, che descrivono rispettivamente l'andamento della variabile nel tempo e il valore previsto dalla retta in corrispondenza dell'origine temporale scelta. Il dataset ottenuto viene denominato dataset B.
-
-% Alcune variabili non vengono sottoposte al calcolo della media o alla regressione lineare, in quanto non adatte a queste operazioni. Tra queste rientrano le variabili categoriche, come il sesso e il tipo di accesso vascolare, e le informazioni anagrafiche, come la data di nascita, e l'anzianità dell'accesso vascolare. Tali variabili non vengono tuttavia rimosse dai dataset.
-
 A ciascuna riga dei dataset A e B viene associata una classe target, definita sulla base del tempo che intercorre tra la data della seduta di riferimento e l'evento avverso, espresso in giorni e indicato con \(TTE\). Vengono definite tre classi:
 
 \begin{itemize}
@@ -500,7 +492,7 @@ A ciascuna riga dei dataset A e B viene associata una classe target, definita su
     \item \textbf{Verde (\(2\))}: evento avverso con \(TTE \geq 365\) giorni.
 \end{itemize}
 
-La Figura \ref{fig:distribution_target_class} mostra la distribuzione delle classi di rischio.
+La Figura~\ref{fig:distribution_target_class} mostra la distribuzione delle classi di rischio.
 
 \begin{figure}[H]
     \centering
@@ -509,11 +501,11 @@ La Figura \ref{fig:distribution_target_class} mostra la distribuzione delle clas
     \label{fig:distribution_target_class}
 \end{figure}
 
-Come si evince dalla Figura \ref{fig:distribution_target_class}, le classi di rischio sono molto sbilanciate a favore della classe 2, quella a basso rischio.
+Come si evince dalla Figura~\ref{fig:distribution_target_class}, le classi di rischio sono molto sbilanciate a favore della classe 2, quella a basso rischio.
 
 \section{Gestione degli outlier}
 
-All'interno del dataset sono stati individuati alcuni errori di inserimento. È importante precisare che tali valori possono essere valori statisticamente inconsueti, oppure errori di inserimento. Gli errori di inserimento possono essere classificati in due modi:
+All'interno del dataset sono stati individuati alcuni valori anomali. È importante precisare che tali valori possono essere valori statisticamente inconsueti, oppure errori di inserimento. Gli errori di inserimento possono essere classificati in due modi:
 
 \begin{itemize}
     \item Errori di inserimento fuori scala, ovvero inserimento di valori clinicamente impossibili. Ad esempio, una persona non può avere un BMI negativo.
@@ -522,14 +514,14 @@ All'interno del dataset sono stati individuati alcuni errori di inserimento. È 
 
 In ambito statistico, si definiscono \textit{outlier} le osservazioni che presentano uno scostamento significativo rispetto ai valori o alle combinazioni di valori attesi. La presenza di un outlier non implica necessariamente che il dato sia errato, ma individua un'osservazione potenzialmente anomala che potrebbe derivare da un errore di inserimento.
 
-Per individuare tali osservazioni viene utilizzato Isolation Forest \cite{IF4781136, 10.1145/2133360.2133363}, un algoritmo di apprendimento non supervisionato per l'\textit{anomaly
+Per individuare tali osservazioni viene utilizzato Isolation Forest~\cite{IF4781136, 10.1145/2133360.2133363}, un algoritmo di apprendimento non supervisionato per l'\textit{anomaly
 detection}. L'algoritmo si basa sul principio secondo cui le osservazioni anomale tendono a essere più facilmente isolabili rispetto alle osservazioni ordinarie.
 
-Isolation Forest costruisce un insieme di alberi decisionali casuali, denominati \textit{Isolation Tree}. Ogni albero viene costruito attraverso una serie di suddivisioni casuali dei dati. A ogni passaggio viene selezionata casualmente una variabile e una soglia di separazione, compresa tra il valore minimo e quello massimo osservato per la variabile selezionata, in modo da dividere le osservazioni in due gruppi. Il procedimento viene ripetuto ricorsivamente fino a quando le osservazioni vengono isolate oppure viene raggiunta la profondità massima dell'albero \cite{IF4781136, 10.1145/2133360.2133363}.
+Isolation Forest costruisce un insieme di alberi decisionali casuali, denominati \textit{Isolation Tree}. Ogni albero viene costruito attraverso una serie di suddivisioni casuali dei dati. A ogni passaggio viene selezionata casualmente una variabile e una soglia di separazione, compresa tra il valore minimo e quello massimo osservato per la variabile selezionata, in modo da dividere le osservazioni in due gruppi. Il procedimento viene ripetuto ricorsivamente fino a quando le osservazioni vengono isolate oppure viene raggiunta la profondità massima dell'albero~\cite{IF4781136, 10.1145/2133360.2133363}.
 
-Il numero di suddivisioni necessarie per isolare un'osservazione, ovvero il numero di archi percorsi dalla radice fino al nodo terminale dell'albero, è denominato \textit{path length}. Per ciascuna osservazione viene calcolata la lunghezza media dei percorsi nei diversi alberi dell'ensemble, utilizzata per determinare un punteggio di anomalia, denominato \textit{anomaly score}. In generale, un percorso medio più breve corrisponde a un punteggio di anomalia più elevato e indica una maggiore probabilità che l'osservazione sia anomala \cite{IF4781136,10.1145/2133360.2133363}.
+Il numero di suddivisioni necessarie per isolare un'osservazione, ovvero il numero di archi percorsi dalla radice fino al nodo terminale dell'albero, è denominato \textit{path length}. Per ciascuna osservazione viene calcolata la lunghezza media dei percorsi nei diversi alberi dell'ensemble, utilizzata per determinare un punteggio di anomalia, denominato \textit{anomaly score}. In generale, un percorso medio più breve corrisponde a un punteggio di anomalia più elevato e indica una maggiore probabilità che l'osservazione sia anomala~\cite{IF4781136,10.1145/2133360.2133363}.
 
-La scelta di Isolation Forest è supportata anche da precedenti studi comparativi. Domingues et al. \cite{DOMINGUES2018406} hanno confrontato 14 algoritmi di rilevamento degli outlier, valutandone le prestazioni, la robustezza, i tempi di esecuzione e il consumo di memoria. I risultati evidenziano le buone caratteristiche di efficienza e scalabilità di Isolation Forest, anche in presenza di dataset di grandi dimensioni. In ambito sanitario, Samariya et al. \cite{AnomalyDetectionEHR2023} hanno confrontato diversi algoritmi di \textit{anomaly detection} su 16 dataset reali relativi a dati sanitari. In tale valutazione, Isolation Forest ha ottenuto la migliore AUC media tra gli algoritmi considerati, risultando il metodo con le migliori prestazioni in 10 dataset su 16. Gli autori evidenziano tuttavia che nessun algoritmo risulta il migliore in tutti i dataset. Questi risultati supportano l'impiego di Isolation Forest nell'analisi di dati sanitari, pur non garantendone a priori le prestazioni sul dataset.
+La scelta di Isolation Forest è supportata anche da precedenti studi comparativi. Domingues et al.~\cite{DOMINGUES2018406} hanno confrontato 14 algoritmi di rilevamento degli outlier, valutandone le prestazioni, la robustezza, i tempi di esecuzione e il consumo di memoria. I risultati evidenziano le buone caratteristiche di efficienza e scalabilità di Isolation Forest, anche in presenza di dataset di grandi dimensioni. In ambito sanitario, Samariya et al.~\cite{AnomalyDetectionEHR2023} hanno confrontato diversi algoritmi di \textit{anomaly detection} su 16 dataset reali relativi a dati sanitari. In tale valutazione, Isolation Forest ha ottenuto la migliore AUC media tra gli algoritmi considerati, risultando il metodo con le migliori prestazioni in 10 dataset su 16. Gli autori evidenziano tuttavia che nessun algoritmo risulta il migliore in tutti i dataset. Questi risultati supportano l'impiego di Isolation Forest nell'analisi di dati sanitari, pur non garantendone a priori le prestazioni sul dataset.
 
 Vengono utilizzati 1000 alberi per la costruzione dell'ensemble, impostando il parametro \texttt{n\_estimators=1000}. Per determinare la soglia utilizzata nella classificazione delle osservazioni viene inoltre impostato il parametro \texttt{contamination=0.0001}, corrispondente a una proporzione di contaminazione assunta pari allo 0,01\% delle osservazioni analizzate. Tale parametro interviene nella determinazione della soglia dell'\textit{anomaly score} e non rappresenta un limite numerico specifico della variabile clinica, né una stima verificata della percentuale effettiva di errori presenti nel dataset.
 
@@ -542,98 +534,17 @@ Le osservazioni identificate come anomale vengono eliminate dal dataset utilizza
 È importante sottolineare che un valore identificato come anomalo dall'algoritmo non rappresenta necessariamente un errore clinico: Isolation Forest individua valori statisticamente inconsueti, ma non dispone di conoscenze cliniche per stabilire se una misurazione sia effettivamente impossibile o errata. La classificazione ottenuta deve quindi essere interpretata come un'indicazione statistica e non come una validazione clinica del dato.
 
 \section{Gestione dei valori mancanti}
+\label{sec:missing}
 
-% A seguito delle operazioni di aggregazione e a causa della natura dei dati, che vengono raccolti con periodicità diverse, le righe presentano dei valori mancanti. I valori mancanti vengono descritti dalla Tabella \ref{tab:missing_plain}.
+A seguito dell'applicazione della soglia massima di validità temporale \(age_m\) (Sezione~\ref{sec:dataset_production}), delle operazioni di aggregazione e della diversa periodicità con cui vengono raccolti i parametri clinici, il dataset presenta diversi valori mancanti. Poiché gli algoritmi di apprendimento automatico adottati non gestiscono direttamente dati incompleti, è necessario ricorrere a una strategia di imputazione. Rispetto ad approcci semplici come la sostituzione con la media o la mediana di colonna, in questo elaborato viene adottato un metodo multivariato iterativo.
 
-% \begin{longtable}{p{0.72\textwidth}r}
-% \caption{Percentuale di valori mancanti per variabile nel dataset \textit{plain}}
-% \label{tab:missing_plain} \\
-% \toprule
-% \textbf{Variabile} & \textbf{Valori mancanti (\%)} \\
-% \midrule
-% \endfirsthead
+Per l'analisi dei dati mancanti, si assume che il meccanismo di \textit{missingness} sia di tipo \textit{Missing At Random} (MAR), secondo la definizione di Rubin~\cite{10.1093/biomet/63.3.581}. Tale assunzione costituisce il presupposto metodologico alla base del metodo di imputazione adottato.
 
-% \multicolumn{2}{c}{\tablename\ \thetable{} continua dalla pagina precedente} \\
-% \toprule
-% \textbf{Variabile} & \textbf{Valori mancanti (\%)} \\
-% \midrule
-% \endhead
-
-% \midrule
-% \multicolumn{2}{r}{Continua nella pagina successiva} \\
-% \endfoot
-
-% \bottomrule
-% \endlastfoot
-
-% \texttt{patient} & 0,00 \\
-% \texttt{dialysis\_date} & 0,00 \\
-% \texttt{dialysis\_end} & 0,00 \\
-% \texttt{tte\_days} & 0,00 \\
-% \texttt{event\_observed} & 0,00 \\
-% \texttt{bmi} & 12,76 \\
-% \texttt{score\_coag} & 100,00 \\
-% \texttt{qb\_totale} & 4,77 \\
-% \texttt{qb\_medio} & 0,02 \\
-% \texttt{arter} & 9,56 \\
-% \texttt{vena} & 10,07 \\
-% \texttt{score\_fav} & 96,27 \\
-% \texttt{score\_cvc} & 97,82 \\
-% \texttt{peso\_pre} & 0,10 \\
-% \texttt{peso\_post} & 0,19 \\
-% \texttt{circonferenza\_braccio} & 99,29 \\
-% \texttt{dpi} & 99,37 \\
-% \texttt{dei} & 99,37 \\
-% \texttt{ffm\_post} & 99,27 \\
-% \texttt{bcm\_post} & 99,27 \\
-% \texttt{fm\_post} & 99,27 \\
-% \texttt{albuminemia} & 96,68 \\
-% \texttt{colesterolemia} & 97,59 \\
-% \texttt{hb} & 93,11 \\
-% \texttt{sideremia} & 94,23 \\
-% \texttt{transferrina} & 94,91 \\
-% \texttt{ferritina} & 94,62 \\
-% \texttt{dosaggio\_epoetina\_alpha\_mensile} & 96,86 \\
-% \texttt{azotemia\_pre} & 94,91 \\
-% \texttt{azotemia\_post} & 94,59 \\
-% \texttt{calcemia} & 93,92 \\
-% \texttt{fosforemia} & 95,34 \\
-% \texttt{pth} & 95,18 \\
-% \texttt{fosfatasi\_alcalina} & 97,24 \\
-% \texttt{vitamina\_d} & 99,00 \\
-% \texttt{bicarbonatemia} & 99,92 \\
-% \texttt{tipo\_accesso\_vascolare} & 1,83 \\
-% \texttt{data\_installazione\_av} & 100,00 \\
-% \texttt{data\_nascita} & 0,00 \\
-% \texttt{sesso} & 0,00 \\
-% \texttt{mesi\_cvc} & 69,69 \\
-% \texttt{mesi\_fav} & 29,65 \\
-% \texttt{minuti\_dialisi} & 0,00 \\
-% \texttt{ore\_dialisi} & 0,00 \\
-% \texttt{uf\_tot} & 0,19 \\
-% \texttt{qb} & 4,77 \\
-% \texttt{a\_v} & 10,28 \\
-% \texttt{pa\_qb} & 13,67 \\
-% \texttt{pv\_qb} & 14,17 \\
-% \texttt{uf} & 0,27 \\
-% \texttt{dei\_peso} & 99,37 \\
-% \texttt{dpi\_peso} & 99,37 \\
-% \texttt{fosfalcindex} & 97,24 \\
-% \texttt{tsat} & 94,95 \\
-% \texttt{alpha\_epodose\_weight} & 96,86 \\
-% \texttt{alpha\_eri} & 99,83 \\
-
-% \end{longtable}
-
-A seguito delle operazioni di aggregazione e a causa della natura dei dati, che vengono raccolti con periodicità diverse, le righe presentano dei valori mancanti; tuttavia, i modelli di apprendimento automatico utilizzati non lavorano con dati mancanti: bisogna gestirli. Storicamente ci sono stati vari approcci all'imputazione, tra cui la sostituzione delle righe che presentano valori mancanti con la mediana o con la media della colonna. In questo elaborato verrà utilizzato un approccio più sofisticato, basato sull'imputazione iterativa.
-
-Per l'analisi dei dati mancanti, si assume che il meccanismo di \textit{missingness} sia di tipo \textit{Missing At Random} (MAR), secondo la definizione di Rubin \cite{10.1093/biomet/63.3.581}. Tale assunzione costituisce il presupposto metodologico alla base del metodo di imputazione adottato.
-
-In termini intuitivi, assumere che i dati siano MAR significa assumere che la probabilità che una certa osservazione non sia disponibile può dipendere da informazioni già osservate, ma non dal valore che la misurazione stessa avrebbe assunto se fosse stata rilevata \cite{10.1093/biomet/63.3.581}.
+In termini intuitivi, assumere che i dati siano MAR significa assumere che la probabilità che una certa osservazione non sia disponibile può dipendere da informazioni già osservate, ma non dal valore che la misurazione stessa avrebbe assunto se fosse stata rilevata~\cite{10.1093/biomet/63.3.581}.
 
 Nel contesto clinico considerato, ad esempio, la probabilità che una misurazione venga effettuata può dipendere dalla storia clinica del paziente, dai valori clinici di altre variabili già rilevate o dalle misurazioni precedenti della stessa variabile. In altre parole, la mancanza di un dato può essere associata ad informazioni già disponibili, senza dipendere direttamente dal valore non osservato in questione. 
 
-Il metodo di imputazione utilizzato è \textit{Multivariate Imputation by Chained Equations} (MICE), combinato con la tecnica \textit{Predictive Mean Matching} (PMM) \cite{MICEINR}. Il procedimento si basa sull'utilizzo iterativo di modelli predittivi, attraverso i quali vengono stimate le informazioni mancanti sfruttando le relazioni tra le diverse variabili del dataset. In particolare, il funzionamento può essere descritto attraverso i seguenti passaggi:
+Il metodo di imputazione utilizzato è \textit{Multivariate Imputation by Chained Equations} (MICE), combinato con la tecnica \textit{Predictive Mean Matching} (PMM)~\cite{MICEINR}. Il procedimento si basa sull'utilizzo iterativo di modelli predittivi, attraverso i quali vengono stimate le informazioni mancanti sfruttando le relazioni tra le diverse variabili del dataset. In particolare, il funzionamento può essere descritto attraverso i seguenti passaggi:
 
 \begin{itemize}
     \item Inizialmente, i valori mancanti vengono sostituiti con valori provvisori, in modo da ottenere un dataset temporaneamente completo.
@@ -643,7 +554,9 @@ Il metodo di imputazione utilizzato è \textit{Multivariate Imputation by Chaine
     \item L'intero ciclo viene ripetuto più volte, in modo da aggiornare iterativamente i valori imputati sulla base delle informazioni disponibili nelle altre variabili.
 \end{itemize}
 
-Nel presente lavoro è stata utilizzata l'implementazione fornita dalla libreria statsmodels, impostando il numero di osservazioni candidate per il PMM a 20 e il numero di iterazioni complete del procedimento a 5. Al termine delle iterazioni è stato estratto il dataset risultante.
+Nel presente lavoro è stata utilizzata l'implementazione fornita dalla libreria statsmodels, impostando il numero di osservazioni candidate per il PMM a 20 e il numero di iterazioni complete del procedimento a 5.
+
+Per preservare la coerenza algebrica tra gli attributi, l'algoritmo MICE viene applicato esclusivamente alle variabili direttamente misurate (origine \texttt{M} in Tabella~\ref{tab:variabili}) che presentano valori mancanti; solo al termine delle iterazioni di imputazione vengono calcolate le variabili derivate (origine \texttt{C} in Tabella~\ref{tab:variabili}) a partire dai valori misurati ormai completi. Qualora nel calcolo di una variabile derivata un termine al denominatore risulti pari a zero, l'intera riga viene scartata per evitare valori indefiniti: tale controllo ha comportato l'esclusione di sole 4 righe del dataset, tutte caratterizzate da durate della dialisi pari a zero, verosimilmente riconducibili a visite di follow-up registrate con timestamp di inizio e fine seduta coincidenti. Si precisa infine che i campi relativi alla durata della seduta non presentano mai valori mancanti, non sono pertanto coinvolti nel processo di imputazione e non vengono inclusi come \textit{feature} di ingresso dei modelli predittivi, come stabilito dalle specifiche di dominio.
 
 \section{Preparazione dei dati per i modelli}
 
@@ -653,23 +566,26 @@ Un'ulteriore trasformazione riguarda i pazienti che, nel corso della propria sto
 
 Vengono inoltre rimosse alcune colonne non necessarie per le successive analisi, come le date relative alla dialisi e alla nascita. Il tempo all'evento e l'indicatore che segnala se l'evento avverso è stato osservato entro l'orizzonte di predizione vengono mantenuti nel dataset per le successive analisi di sopravvivenza, ma non vengono utilizzati come caratteristiche in ingresso del modello. Anche l'identificativo del paziente viene escluso dalle caratteristiche utilizzate per la classificazione.
 
-Infine, le variabili numeriche vengono standardizzate sottraendo la media e dividendo per la deviazione standard. Le variabili binarie, come il sesso e quelle relative al tipo di accesso vascolare, vengono mantenute nella loro rappresentazione originale. La standardizzazione è particolarmente importante per il classificatore \textit{K-Nearest Neighbors} (kNN) utilizzato nel progetto, poiché il calcolo delle distanze euclidee è influenzato dalla scala delle variabili. In questo modo si evita che le caratteristiche con valori numericamente più elevati abbiano un'influenza predominante sul risultato della classificazione.
+Infine, le variabili numeriche vengono standardizzate sottraendo la media e dividendo per la deviazione standard. Le variabili binarie, come il sesso e quelle relative al tipo di accesso vascolare, vengono mantenute nella loro rappresentazione originale. La standardizzazione è particolarmente importante per il classificatore \textit{k-Nearest Neighbors} (kNN) utilizzato nel progetto, poiché il calcolo delle distanze euclidee è influenzato dalla scala delle variabili. In questo modo si evita che le caratteristiche con valori numericamente più elevati abbiano un'influenza predominante sul risultato della classificazione.
 
 Per quanto riguarda il modello LSTM, le sequenze vengono generate a partire dalle sedute di dialisi del singolo paziente, considerando ogni seduta come un elemento della sequenza (\textit{timestep}). Nello specifico, è stata fissata a cinque la lunghezza delle sequenze (\textit{sequence length}), in modo da fornire al modello informazioni relative alle cinque sedute di dialisi più recenti, ordinate cronologicamente.
 
-La scelta di considerare una sequenza composta da più sedute consecutive è coerente con le evidenze presenti nella letteratura clinica. In particolare, Flythe et al. \cite{FLYTHE2020}, nell'ambito della conferenza KDIGO sulla gestione della pressione arteriosa e del volume nei pazienti sottoposti a dialisi, evidenziano l'importanza di valutare la persistenza di determinati andamenti clinici su più trattamenti consecutivi. Gli autori indicano, ad esempio, che un incremento della pressione arteriosa sistolica superiore a 10 mmHg tra la misurazione pre- e post-dialisi, con valori nel range ipertensivo, riscontrato in almeno quattro delle sei sedute consecutive, dovrebbe motivare un approfondimento della gestione pressoria e del volume.
+La scelta di considerare una sequenza composta da più sedute consecutive è coerente con le evidenze presenti nella letteratura clinica. In particolare, Flythe et al.~\cite{FLYTHE2020}, nell'ambito della conferenza KDIGO sulla gestione della pressione arteriosa e del volume nei pazienti sottoposti a dialisi, evidenziano l'importanza di valutare la persistenza di determinati andamenti clinici su più trattamenti consecutivi. Gli autori indicano, ad esempio, che un incremento della pressione arteriosa sistolica superiore a 10 mmHg tra la misurazione pre- e post-dialisi, con valori nel range ipertensivo, riscontrato in almeno quattro delle sei sedute consecutive, dovrebbe motivare un approfondimento della gestione pressoria e del volume.
 
 La lunghezza della sequenza è stata tuttavia fissata a cinque anziché a sei sedute per un compromesso tra la quantità di informazioni temporali disponibili e la numerosità dei pazienti utilizzabili per l'addestramento. In particolare, questa scelta consente di includere anche i pazienti per i quali sono disponibili soltanto cinque sedute di dialisi, che verrebbero altrimenti esclusi adottando una lunghezza pari a sei. In questo modo si cerca di preservare una rappresentazione sufficientemente ampia della storia clinica recente, evitando al contempo una riduzione non necessaria della popolazione considerata.
 
 \section{Metodologia di training}
+\label{sec:training_method}
 
 Per limitare il rischio di \textit{data leakage}, ossia l'utilizzo, durante la fase di addestramento, di informazioni provenienti dai dati destinati alla valutazione del modello, le osservazioni vengono suddivise in gruppi sulla base dell'identificativo del paziente. In questo modo, si garantisce che le osservazioni dello stesso paziente non siano presenti contemporaneamente nel training set e nei set utilizzati per la valutazione, evitando che il modello possa sfruttare informazioni relative a pazienti già osservati durante l'addestramento. La suddivisione tiene inoltre conto della distribuzione delle classi, al fine di mantenerne proporzioni quanto più possibile simili nei diversi insiemi.
 
 Per effettuare la suddivisione viene utilizzato \textit{StratifiedGroupKFold} di \textit{scikit-learn}, che combina la separazione delle osservazioni in base al paziente con la stratificazione rispetto alla variabile target. In particolare, il metodo genera fold caratterizzati da gruppi non sovrapposti, cercando al contempo di preservare una distribuzione delle classi simile a quella complessiva del dataset. A ogni iterazione, un fold viene utilizzato per la valutazione del modello, mentre i restanti costituiscono il training set.
 
-Anche le operazioni di imputazione e standarizzazione vengono effettuate in modo da prevenire possibili fenomeni di \textit{data leakage}. In particolare, queste operazioni vengono eseguite all'interno della pipeline del modello, evitando che le informazioni provenienti dai set di validazione e test concorrano alla stima dei parametri delle trasformazioni. Questi vengono infatti calcolati esclusivamente sul training set e successivamente applicati agli altri insiemi, senza utilizzare questi ultimi per stimare i parametri di imputazione o le scale delle variabili. Tale procedura consente di evitare che informazioni non disponibili durante l'addestramento influenzino il preprocessing, ottenendo una valutazione più attendibile delle prestazioni dei modelli e limitandone la possibile sovrastima.
+Anche le operazioni di imputazione e standardizzazione vengono effettuate in modo da prevenire possibili fenomeni di \textit{data leakage}. In particolare, queste operazioni vengono eseguite all'interno della pipeline del modello, evitando che le informazioni provenienti dai set di validazione e test concorrano alla stima dei parametri delle trasformazioni. Questi vengono infatti calcolati esclusivamente sul training set e successivamente applicati agli altri insiemi, senza utilizzare questi ultimi per stimare i parametri di imputazione o le scale delle variabili. Tale procedura consente di evitare che informazioni non disponibili durante l'addestramento influenzino il preprocessing, ottenendo una valutazione più attendibile delle prestazioni dei modelli e limitandone la possibile sovrastima.
 
 Per ridurre la tendenza del modello kNN a favorire la classe maggioritaria, viene inoltre effettuato un \textit{undersampling}, riducendone la numerosità fino a renderla pari a quella della classe minoritaria. Questa operazione viene applicata esclusivamente al training set, mentre i set di validazione e test mantengono la distribuzione originale delle classi, in modo da rappresentare la composizione effettiva del dataset e consentire una valutazione delle prestazioni su dati non alterati.
+
+Per il modello LSTM, invece, al fine di non alterare la continuità temporale e la numerosità delle sequenze di addestramento, non viene applicato l'undersampling; lo sbilanciamento tra le classi viene gestito direttamente nella funzione di perdita adottando una \textit{Weighted Cross-Entropy Loss}, i cui pesi sono calcolati esclusivamente sul \textit{training set} di ciascun fold mediante la funzione \texttt{compute\_class\_weight} di \texttt{scikit-learn}.
 
 \section{Ottimizzazione degli iperparametri}
 
@@ -679,39 +595,40 @@ Nello specifico, per il modello kNN sono stati analizzati due iperparametri: il 
 
 \begin{table}[H]
 \centering
-\caption{Spazio di ricerca degli iperparametri del classificatore kNN.}
+\caption{Spazio di ricerca degli iperparametri del classificatore kNN}
 \label{tab:knn_grid}
 \begin{tabular}{ll}
-\hline
+\toprule
 \textbf{Iperparametro} & \textbf{Valori considerati} \\
-\hline
+\midrule
 Numero di vicini \(k\) & Da 2 a 300 \\
 Pesi dei vicini & \texttt{uniform}, \texttt{distance} \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
 La medesima strategia di ricerca è stata applicata all'architettura LSTM, esplorando lo spazio di iperparametri riportato nella Tabella~\ref{tab:lstm_grid}.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
-\caption{Spazio di ricerca degli iperparametri del modello LSTM.}
+\caption{Spazio di ricerca degli iperparametri del modello LSTM}
 \label{tab:lstm_grid}
 \begin{tabular}{ll}
-\hline
+\toprule
 \textbf{Iperparametro} & \textbf{Valori considerati} \\
-\hline
-Batch Size & 64, 128 \\
-Numero di layer & 1, 2, 3, 4 \\
-Dropout rate & 0.2, 0.3 \\
-Hidden Size & 8, 16 \\
-\hline
+\midrule
+Batch size & $64, 128$ \\
+Numero di layer & $1, 2, 3, 4$ \\
+Dropout rate & $0,2;\; 0,3$ \\
+Hidden size & $8, 16$ \\
+Learning rate & $0,0005;\; 0,0001$ \\
+\bottomrule
 \end{tabular}
 \end{table}
 
-Per valutare le prestazioni di tutti i modelli è stata adottata una procedura di \textit{Nested Cross-Validation}. Questa metodologia distingue la fase di addestramento e selezione degli iperparametri dalla fase di valutazione finale, consentendo di stimare la capacità di generalizzazione ed evitando possibili bias di ottimizzazione \cite{NESTEDCV2006}.
+Per valutare le prestazioni di tutti i modelli è stata adottata una procedura di \textit{Nested Cross-Validation}. Questa metodologia distingue la fase di addestramento e selezione degli iperparametri dalla fase di valutazione finale, consentendo di stimare la capacità di generalizzazione ed evitando possibili bias di ottimizzazione~\cite{NESTEDCV2006}.
 
-La procedura si articola su due livelli di validazione nidificati. Nel ciclo interno, per ciascuna combinazione di iperparametri esplorata tramite \textit{Grid Search}, l'addestramento del modello LSTM procede iterativamente per un numero massimo di epoche (\texttt{max\_epoch}). Al termine di ogni epoca, le prestazioni vengono monitorate mediante la \textit{balanced accuracy} (calcolata come media del richiamo sulle tre classi \textbf{Rosso}, \textbf{Giallo} e \textbf{Verde}), selezionando i pesi corrispondenti all'epoca ottima ed evitando che l'ottimizzazione sia dominata dalla classe maggioritaria.
+La procedura si articola su due livelli di validazione nidificati. Nel ciclo interno, per ciascuna combinazione di iperparametri esplorata tramite \textit{Grid Search}, il modello LSTM viene addestrato mediante l'ottimizzatore \textit{Adam} per un massimo di \(\texttt{max\_epoch} = 100\) epoche. Al termine di ogni epoca, le prestazioni sul set di validazione interno vengono monitorate tramite la \textit{balanced accuracy} (calcolata come media del richiamo sulle tre classi \textbf{Rosso}, \textbf{Giallo} e \textbf{Verde}), salvando i pesi corrispondenti all'epoca ottima ed evitando che l'ottimizzazione sia dominata dalla classe maggioritaria. Per prevenire l'overfitting e ridurre i tempi di calcolo, è inoltre attivo un meccanismo di \textit{early stopping} con \(\texttt{patience} = 15\) epoche.
 
 Una volta ottenute le predizioni del modello configurato sul set di validazione interno, i pazienti vengono suddivisi nei tre gruppi di rischio assegnati. Per analizzare correttamente tale stratificazione, viene utilizzato lo stimatore di Kaplan--Meier~\cite{Kaplan01061958}: un metodo statistico non parametrico che consente di stimare la funzione di sopravvivenza dei diversi gruppi di rischio senza assumere a priori una specifica distribuzione statistica dei tempi di sopravvivenza.
 
@@ -723,10 +640,19 @@ Applicando lo stimatore separatamente alle tre coorti individuate dal classifica
     \item Minimizzare il complemento della probabilità di sopravvivenza a 365 giorni dei verdi (\(1-S_{\text{Verde}}(365)\)), limitando la presenza, nella classe a basso rischio, di pazienti che manifestano un evento avverso entro un anno.
 \end{itemize}
 
-Confrontando le prestazioni di tutte le configurazioni esplorate dalla \textit{Grid Search} rispetto a tali criteri, viene costruita la \textit{frontiera di Pareto} e selezionata la configurazione non dominata ottima. Nel ciclo esterno, il modello configurato con tali iperparametri viene infine valutato sul relativo insieme di test, completamente escluso dalle fasi precedenti. La valutazione è stata ripetuta su cinque fold esterni, sintetizzando i risultati tramite media e deviazione standard.
+Confrontando le prestazioni di tutte le configurazioni esplorate dalla \textit{Grid Search} rispetto a tali criteri, viene costruita la \textit{frontiera di Pareto}, che raccoglie tutte le soluzioni non dominate. Poiché la frontiera può contenere più configurazioni tra loro non confrontabili, la selezione deterministica di un'unica configurazione finale avviene mediante una regola a soglia:
+\begin{enumerate}
+    \item si considerano le configurazioni sulla frontiera che soddisfano il vincolo \(1 - S_{\text{Verde}}(365) < 0{,}15\) e, tra queste, viene selezionata quella che minimizza \(S_{\text{Rosso}}(180)\);
+    \item qualora nessuna configurazione rispetti il vincolo di soglia, viene selezionata la configurazione che minimizza \(1 - S_{\text{Verde}}(365)\), privilegiando la sicurezza predittiva sulla classe a basso rischio.
+\end{enumerate}
+La soglia di \(0{,}15\) (meno del 15\% di eventi stimati entro un anno nella classe \textbf{Verde}) è stata fissata empiricamente a seguito dell'analisi esplorativa degli output preliminari degli algoritmi, con l'obiettivo di bilanciare l'affidabilità della classe a basso rischio e la selettività della classe ad alto rischio.
+
+Nel ciclo esterno, il modello configurato con gli iperparametri così selezionati viene infine valutato sul relativo insieme di test, completamente escluso dalle fasi precedenti. La valutazione è stata ripetuta su cinque fold esterni, sintetizzando i risultati tramite media e deviazione standard.
 
 \chapter{Esperimenti e risultati}
 \label{cap:risultati}
+
+Questo capitolo presenta la valutazione sperimentale della pipeline progettata. La Sezione~\ref{sec:confronto_knn_lstm} riporta il confronto iniziale tra le architetture kNN e LSTM sulle due rappresentazioni di base (Dataset~A e Dataset~B) con finestra temporale fissata a 30 giorni. Le Sezioni~\ref{sec:sliding_window_variation}--\ref{sec:locf_and_freshness} descrivono invece le estensioni sperimentali introdotte nel corso del tirocinio (variazione della \textit{sliding window}, strategia LOCF con punteggio di freschezza, funzione di loss ordinale e \textit{feature selection} clinica), i cui risultati sono poi raccolti, confrontati e discussi in modo unificato nella Sezione~\ref{sec:results_analysis}.
 
 \section{Confronto tra kNN e LSTM}
 \label{sec:confronto_knn_lstm}
@@ -740,17 +666,17 @@ I risultati della \textit{Nested Cross-Validation} a 5 fold sono riportati nella
 \begin{table}[H]
 \centering
 \small
-\caption{Confronto delle prestazioni di kNN e LSTM sui Dataset A e B mediante \textit{Nested Cross-Validation} a 5 fold. La \textit{Balanced Accuracy} è riportata come media $\pm$ deviazione standard sui fold; le metriche di sopravvivenza sono calcolate sulle predizioni \textit{pooled out-of-fold}.}
+\caption{Confronto delle prestazioni di kNN e LSTM sui Dataset A e B mediante \textit{Nested Cross-Validation} a 5 fold}
 \label{tab:confronto_knn_lstm}
 \begin{tabular}{lccc}
-\hline
+\toprule
 \textbf{Modello / Dataset} & \textbf{Balanced Accuracy} & \textbf{$S_{\text{Rosso}}(180)$} & \textbf{$1-S_{\text{Verde}}(365)$} \\
-\hline
+\midrule
 kNN -- Dataset A  & $0,4208 \pm 0,0012$ & 0,710 & 0,202 \\
 kNN -- Dataset B  & $0,4215 \pm 0,0015$ & 0,691 & 0,223 \\
 LSTM -- Dataset A & $0,4776 \pm 0,0091$ & 0,639 & 0,146 \\
 LSTM -- Dataset B & $0,4895 \pm 0,0125$ & 0,580 & 0,147 \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -789,7 +715,7 @@ La Figura~\ref{fig:km_confronto} mostra le curve di Kaplan--Meier dei tre gruppi
         \label{fig:km_lstm_b}
     \end{subfigure}
 
-    \caption{Curve di Kaplan--Meier dei gruppi di rischio predetti dai modelli kNN e LSTM sui Dataset A e B.}
+    \caption{Curve di Kaplan--Meier dei gruppi di rischio predetti dai modelli kNN e LSTM sui Dataset A e B}
     \label{fig:km_confronto}
 \end{figure}
 
@@ -806,64 +732,73 @@ Le curve di Kaplan--Meier della Figura~\ref{fig:km_confronto} completano il conf
 Nel complesso, la LSTM ottiene risultati migliori del kNN su entrambe le rappresentazioni, sia in termini di \textit{Balanced Accuracy} sia per gli indicatori di sopravvivenza considerati. Il beneficio associato al passaggio dai valori medi ai trend risulta invece dipendente dall'architettura: limitato e non uniforme per il kNN, più evidente per la LSTM. Quest'ultima viene pertanto adottata come architettura di riferimento per gli esperimenti successivi. In particolare, tra le due configurazioni LSTM, il Dataset B presenta la \textit{Balanced Accuracy} più elevata e il valore più basso di $S_{\text{Rosso}}(180)$; l'indicatore relativo al gruppo Verde rimane sostanzialmente invariato rispetto al Dataset A.
 
 \section{Variazione della sliding window}
+\label{sec:sliding_window_variation}
 
-In un contesto di predizione dinamica su serie temporali cliniche \cite{VANHOUWELINGENDL2006}, l'ampiezza della finestra storica di osservazione determina la quantità di informazione pregressa disponibile al momento della predizione. Per valutare l'influenza dell'orizzonte temporale sulle prestazioni dei modelli, sono stati generati diversi dataset variando l'ampiezza della \textit{sliding window} su sei valori: 30, 60, 90, 120, 150 e 180 giorni.
+In un contesto di predizione dinamica su serie temporali cliniche~\cite{VANHOUWELINGENDL2006}, l'ampiezza della finestra storica di osservazione determina la quantità di informazione pregressa disponibile al momento della predizione. Per valutare l'influenza dell'orizzonte temporale sulle prestazioni dei modelli, sono stati generati diversi dataset variando l'ampiezza della \textit{sliding window} su sei valori: 30, 60, 90, 120, 150 e 180 giorni.
 
 L'obiettivo dell'esperimento è verificare se l'analisi di trend clinici di breve, medio o lungo periodo rispetto alla data di seduta dialitica consenta di stimare con maggiore accuratezza lo stato del paziente relativamente all'endpoint composito considerato. La costruzione dei dataset e la procedura di addestramento e validazione rimangono invariate rispetto a quanto descritto in precedenza.
 
-\section{LOCF e punteggio di freschezza}
+\section{Funzione di loss}
+\label{sec:loss_function}
 
-Nella pratica clinica, i risultati degli esami di laboratorio vengono generalmente ritenuti validi fino alla misurazione successiva, secondo un approccio equivalente al metodo LOCF. Tuttavia, l'affidabilità informativa di un dato di laboratorio diminuisce con il trascorrere del tempo in funzione del metabolismo dell'analita misurato.
+Il problema di stratificazione affrontato in questo lavoro presenta una struttura intrinsecamente ordinale, poiché le classi di rischio (\textbf{Rosso}, \textbf{Giallo} e \textbf{Verde}) seguono un ordinamento monotono rispetto al tempo all'evento. Una funzione di perdita standard come la \textit{Cross-Entropy Loss} tratta le classi come categorie nominali indipendenti, penalizzando allo stesso modo errori di entità diversa e trascurando la relazione d'ordine tra di esse.
+
+Per preservare tale struttura ordinale, è stata sperimentata la funzione di perdita \textit{Rank-Consistent Ordinal Regression} (CORN)~\cite{shi2021deep}, che riformula la classificazione ordinale in una sequenza di compiti binari condizionati, stimando probabilità marginali tramite la regola della catena (\textit{chain rule}) e garantendo la coerenza dei ranghi predetti. Anche in questo caso, per non far dominare il gradiente dalla classe maggioritaria, vengono applicati dei pesi come specificato nella Sezione~\ref{sec:training_method}.
+
+\section{Feature selection}
+\label{sec:feature_selection}
+
+I dataset clinici contengono frequentemente variabili ridondanti o poco informative che possono introdurre rumore e compromettere la capacità di generalizzazione dei modelli. Seguendo le raccomandazioni metodologiche per lo sviluppo di modelli predittivi clinici~\cite{Efthimioue078276} e le linee guida internazionali per la gestione della malattia renale cronica~\cite{2024S117}, la fase di \textit{feature selection} è stata guidata dalle evidenze cliniche di dominio piuttosto che da criteri puramente statistici, al fine di selezionare i predittori più rilevanti per il rischio di mortalità ed eventi avversi in emodialisi:
+
+\begin{itemize}
+    \item \textbf{Parametri dialitici e gestione dei fluidi:} velocità di ultrafiltrazione (UF), variabili intradialitiche ed equilibrio idro-elettrolitico, strettamente associati al rischio cardiovascolare e alla mortalità a breve e lungo termine~\cite{FLYTHE2011250, FLYTHE2020, NANOVIC2005};
+    \item \textbf{Tipologia di accesso vascolare:} distinzione tra fistola artero-venosa (FAV), catetere venoso centrale temporaneo (CVC-Tem) e permanente (CVC-Per), poiché il tipo di accesso incide significativamente sul rischio infettivo e sulla sopravvivenza del paziente~\cite{10.1093/qjmed/hcs143, Stefan2025PatternsAO, LOK2020S1};
+    \item \textbf{Metabolismo minerale e osseo:} fosforemia, la cui alterazione cronica è correlata all'aumento della mortalità cardiovascolare nei pazienti in emodialisi~\cite{10.1093/ndt/gfaa054}, insieme agli altri indicatori dell'asse calcio--fosforo (paratormone e fosfatasi alcalina) monitorati secondo le linee guida cliniche~\cite{2024S117};
+    \item \textbf{Stato nutrizionale e demografico:} età, albuminemia e indicatori legati alla sindrome da deperimento proteico-energetico (\textit{protein-energy wasting}), quali indice di massa corporea (BMI), peso corporeo, colesterolemia e marcatori antropometrici~\cite{MSAAD2019, FOUQUE2008391};
+    \item \textbf{Anemia e assetto marziale:} emoglobina (Hb), ferritina, sideremia e transferrina, marcatori chiave nel monitoraggio dell'anemia associata alla malattia renale cronica~\cite{2024S117}.
+\end{itemize}
+
+Tutte le analisi successive adottano questo insieme selezionato di variabili. Poiché le evidenze cliniche considerano rilevanti sia i valori puntuali rilevati alla seduta sia la loro evoluzione nel tempo, le rappresentazioni dei dataset A e B vengono integrate in un unico dataset, denominato \textbf{dataset C}, che affianca alle misurazioni selezionate le rispettive medie mobili e i coefficienti di trend sulla finestra \(w\).
+
+\section{LOCF e punteggio di freschezza}
+\label{sec:locf_and_freshness}
+
+A differenza della pipeline \textit{baseline} --- in cui le misurazioni che superano la soglia di validità \(\mathrm{age}_m\) vengono scartate e i conseguenti valori mancanti ricostruiti tramite imputazione MICE (Sezioni~\ref{sec:dataset_production} e~\ref{sec:missing}) --- questa variante sperimentale, denominata \textbf{dataset LOCF}, mantiene la medesima struttura del dataset C (medie mobili e trend su finestra \(w\) sullo stesso insieme di variabili selezionate), ma sostituisce l'imputazione MICE con l'approccio \textit{Last Observation Carried Forward} (LOCF): quando una misurazione storica è disponibile, il suo valore viene trascinato in avanti sulle sedute successive fino alla rilevazione seguente, ricorrendo all'imputazione MICE solo per eventuali valori mancanti iniziali precedenti alla prima osservazione utile.
+
+Nella pratica clinica, infatti, i risultati degli esami di laboratorio vengono generalmente ritenuti validi fino alla misurazione successiva, secondo un approccio equivalente al metodo LOCF. Tuttavia, l'affidabilità informativa di un dato di laboratorio diminuisce con il trascorrere del tempo.
 
 Per integrare questa dinamica nel modello, accanto alla strategia LOCF è stato introdotto un \textit{punteggio di freschezza} per le proteine sieriche e i principali marcatori ematochimici. Tale punteggio si basa sull'emivita biologica (\(T_{1/2}\)), definita come il tempo necessario affinché la concentrazione plasmatica di una specifica molecola si riduca del \(50\%\). Il punteggio di freschezza \(F_j(\Delta t)\) per la feature \(j\) è formalizzato come:
 \[
 F_j(\Delta t) = 2^{-\frac{\Delta t}{T_{1/2,j}}}
 \]
-dove \(\Delta t\) indica l'intervallo in giorni trascorso dalla data della misurazione e \(T_{1/2,j}\) rappresenta l'emivita della feature di laboratorio \(j\). Poiché l'emivita non viene impiegata nella pratica clinica standard per invalidare formalmente un referto, tale indice costituisce una rappresentazione euristica dell'affidabilità temporale del dato. Nella Tabella~\ref{tab:emivite} sono riportati i marcatori considerati e le relative emivite tratte dalla letteratura.
+dove \(\Delta t\) indica l'intervallo temporale trascorso dalla data della misurazione e \(T_{1/2,j}\) rappresenta l'emivita della feature di laboratorio \(j\), entrambi espressi nella medesima unità di misura (giorni). Poiché l'emivita non viene impiegata nella pratica clinica standard per invalidare formalmente un referto, tale indice costituisce una rappresentazione euristica dell'affidabilità temporale del dato. Nella Tabella~\ref{tab:emivite} sono riportati i marcatori considerati e le relative emivite tratte dalla letteratura.
 
 \begin{table}[htbp]
     \centering
-    \caption{Feature di laboratorio considerate e rispettive emivite biologiche.}
+    \caption{Feature di laboratorio considerate e rispettive emivite biologiche}
     \label{tab:emivite}
     \begin{tabular}{lc}
-        \hline
+        \toprule
         \textbf{Feature di laboratorio} & \textbf{Emivita ($T_{1/2}$)} \\
-        \hline
-        Albuminemia & 17 giorni \cite{10.1172/JCI102789} \\
-        Transferrina & 8 giorni \cite{PUPIM2013137} \\
-        Vitamina D & 14 giorni \cite{VITAMINDHL2023} \\
-        Emoglobina (Hb) & 36,65 giorni \cite{PPR:PPR204454, Wu31122025} \\
-        PTH & 12,9 ore \cite{Inoue1987StudiesOT} \\
-        Sideremia & 90 minuti \cite{SERUMIRONHL1985} \\
-        Ferritina & 1,125 giorni \cite{WORWOOD1982827} \\
-        Fosfatasi alcalina & 7 giorni \cite{Lowe2026} \\
-        \hline
+        \midrule
+        Albuminemia & 17 giorni~\cite{10.1172/JCI102789} \\
+        Transferrina & 8 giorni~\cite{PUPIM2013137} \\
+        Vitamina D & 14 giorni~\cite{VITAMINDHL2023} \\
+        Emoglobina (Hb) & 36,65 giorni~\cite{PPR:PPR204454, Wu31122025} \\
+        PTH & 12,9 ore~\cite{Inoue1987StudiesOT} \\
+        Sideremia & 90 minuti~\cite{SERUMIRONHL1985} \\
+        Ferritina & 1,125 giorni~\cite{WORWOOD1982827} \\
+        Fosfatasi alcalina & 7 giorni~\cite{Lowe2026} \\
+        \bottomrule
     \end{tabular}
 \end{table}
 
-\section{Funzione di loss}
-
-Il problema di stratificazione affrontato in questo lavoro presenta una struttura intrinsecamente ordinale, poiché le classi di rischio (\textbf{Rosso}, \textbf{Giallo} e \textbf{Verde}) seguono un ordinamento monotono rispetto al tempo all'evento. Una funzione di perdita standard come la \textit{Cross-Entropy Loss} tratta le classi come categorie nominali indipendenti, penalizzando allo stesso modo errori di entità diversa e trascurando la relazione d'ordine tra di esse.
-
-Per preservare tale struttura ordinale, è stata sperimentata la funzione di perdita \textit{Consistent Rank Logits} / \textit{Rank-Consistent Ordinal Regression} (CORN) \cite{shi2021deep}, che riformula la classificazione ordinale in una sequenza di compiti binari condizionati, stimando probabilità congiunte tramite la regola della catena (\textit{chain rule}) e garantendo la coerenza dei ranghi predetti.
-
-\section{Feature selection}
-
-I dataset clinici contengono frequentemente variabili ridondanti o poco informative che possono introdurre rumore e compromettere la capacità di generalizzazione dei modelli. Seguendo le raccomandazioni metodologiche per lo sviluppo di modelli predittivi clinici \cite{Efthimioue078276} e le linee guida internazionali per la gestione della malattia renale cronica \cite{2024S117}, la fase di \textit{feature selection} è stata guidata dalle evidenze cliniche di dominio piuttosto che da criteri puramente statistici, al fine di selezionare i predittori più rilevanti per il rischio di mortalità ed eventi avversi in emodialisi:
-
-\begin{itemize}
-    \item \textbf{Parametri dialitici e gestione dei fluidi:} velocità di ultrafiltrazione (UF), variabili intradialitiche ed equilibrio idro-elettrolitico, strettamente associati al rischio cardiovascolare e alla mortalità a breve e lungo termine \cite{FLYTHE2011250, FLYTHE2020, NANOVIC2005};
-    \item \textbf{Tipologia di accesso vascolare:} distinzione tra fistola artero-venosa (FAV), catetere venoso centrale temporaneo (CVC-Tem) e permanente (CVC-Per), poiché il tipo di accesso incide significativamente sul rischio infettivo e sulla sopravvivenza del paziente \cite{10.1093/qjmed/hcs143, Stefan2025PatternsAO, LOK2020S1};
-    \item \textbf{Metabolismo minerale:} livelli sierici di fosforo, la cui alterazione cronica è correlata all'aumento della mortalità cardiovascolare nei pazienti in emodialisi \cite{10.1093/ndt/gfaa054};
-    \item \textbf{Stato nutrizionale e demografico:} età, albuminemia e indicatori legati alla sindrome da deperimento proteico-energetico (\textit{protein-energy wasting}), quali indice di massa corporea (BMI), peso corporeo, colesterolemia e marcatori antropometrici \cite{MSAAD2019, FOUQUE2008391}.
-\end{itemize}
-
-Tutte le successive analisi saranno dunque eseguite sotto questa assunzione. In particolare, siccome alcune di queste indicazioni prevedono sia l'utilizzo di misurazioni al tempo della seduta, sia l'utilizzo di variabili di trend, i dataset A e B verranno fusi in un nuovo dataset, denominato dataset C, che preserva la struttura iniziale.
+Per isolare il contributo della propagazione temporale da quello dell'anzianità del dato, nella valutazione sperimentale della Sezione~\ref{sec:results_analysis} vengono quindi confrontate due varianti distinte rispetto al dataset C: il \textbf{dataset LOCF}, che applica esclusivamente la propagazione LOCF descritta in precedenza, e il \textbf{dataset LOCF + punteggio di freschezza}, che affianca alle medesime variabili una colonna aggiuntiva contenente l'indice \(F_j(\Delta t)\) per ciascun marcatore di laboratorio riportato in Tabella~\ref{tab:emivite}.
 
 \section{Sintesi e discussione dei risultati}
+\label{sec:results_analysis}
 
-La Tabella~\ref{tab:res_lstm_fe} riassume i risultati ottenuti al termine del processo di Nested Cross-Validation, al variare della \textit{sliding window} \(w\), della funzione di \textit{loss} e del punteggio di freschezza, includendo nella pipeline le feature considerate e il loro trend.
-
+La Tabella~\ref{tab:res_lstm_fe} riassume i risultati ottenuti al termine del processo di Nested Cross-Validation, al variare della \textit{sliding window} \(w\), della funzione di \textit{loss} e del punteggio di freschezza, includendo nella pipeline le feature considerate e il loro trend. 
 
 \begingroup
 \small
@@ -871,106 +806,111 @@ La Tabella~\ref{tab:res_lstm_fe} riassume i risultati ottenuti al termine del pr
 
 \begin{longtable}{@{}c c c c@{}}
 
-\caption{Confronto delle prestazioni del modello LSTM sul dataset con \textit{feature extraction} al variare della \textit{sliding window} \(w\), della funzione di \textit{loss} e del punteggio di freschezza}
+\caption{Confronto delle prestazioni del modello LSTM sul dataset con \textit{feature selection} al variare della \textit{sliding window} \(w\), della funzione di \textit{loss} e del punteggio di freschezza}
 \label{tab:res_lstm_fe}\\
 
-\hline
-\textbf{\(w\) (giorni)} &
-\textbf{Balanced Accuracy} &
-\textbf{\(S_{\text{Rosso}}(180)\)} &
-\textbf{\(1-S_{\text{Verde}}(365)\)} \\
-\hline
+\toprule
+\(w\) \textbf{(giorni)} &
+\textbf{\textit{Balanced accuracy}} &
+\(S_{\text{Rosso}}(180)\) &
+\(1 - S_{\text{Verde}}(365)\) \\
+\midrule
 \endfirsthead
 
-\multicolumn{4}{c}{\tablename\ \thetable{} -- continua dalla pagina precedente}\\
-\hline
-\textbf{\(w\) (giorni)} &
-\textbf{Balanced Accuracy} &
-\textbf{\(S_{\text{Rosso}}(180)\)} &
-\textbf{\(1-S_{\text{Verde}}(365)\)} \\
-\hline
+\multicolumn{4}{@{}c@{}}{\tablename\ \thetable{} -- continua dalla pagina precedente}\\
+\toprule
+\(w\) \textbf{(giorni)} &
+\textbf{\textit{Balanced accuracy}} &
+\(S_{\text{Rosso}}(180)\) &
+\(1 - S_{\text{Verde}}(365)\) \\
+\midrule
 \endhead
 
-\hline
-\multicolumn{4}{r}{\textit{Continua nella pagina successiva}}\\
+\midrule
+\multicolumn{4}{r@{}}{\textit{Continua nella pagina successiva}}\\
 \endfoot
 
-\hline
+\bottomrule
 \endlastfoot
 
-\multicolumn{4}{l}{\textit{Cross-Entropy DATASET LOCF}}\\*
-30  & \(0,5106 \pm 0,0148\) & 0,512 & 0,136 \\
-60  & \(0,5094 \pm 0,0131\) & 0,528 & 0,134 \\
-90  & \(0,5078 \pm 0,0174\) & 0,518 & 0,137 \\
-120 & \(0,5021 \pm 0,0259\) & 0,543 & 0,138 \\
-150 & \(0,4906 \pm 0,0322\) & 0,540 & 0,147 \\
-180 & \(0,4973 \pm 0,0163\) & 0,570 & 0,142 \\
-\hline
+\multicolumn{4}{@{}l}{\textit{Cross-Entropy -- Dataset LOCF}}\\*
+30  & \(0{,}5106 \pm 0{,}0148\) & 0,512 & 0,136 \\
+60  & \(0{,}5094 \pm 0{,}0131\) & 0,528 & 0,134 \\
+90  & \(0{,}5078 \pm 0{,}0174\) & 0,518 & 0,137 \\
+120 & \(0{,}5021 \pm 0{,}0259\) & 0,543 & 0,138 \\
+150 & \(0{,}4906 \pm 0{,}0322\) & 0,540 & 0,147 \\
+180 & \(0{,}4973 \pm 0{,}0163\) & 0,570 & 0,142 \\
+\midrule
 
-\multicolumn{4}{l}{\textit{Cross-Entropy DATASET LOCF + Punteggio di freschezza}}\\*
-30  & \(0,5056 \pm 0,0177\) & 0,512 & 0,135 \\
-60  & \(0,5125 \pm 0,0140\) & 0,479 & 0,134 \\
-90  & \(0,5100 \pm 0,0210\) & 0,497 & 0,137 \\
-120 & \(0,5019 \pm 0,0243\) & 0,521 & 0,144 \\
-150 & \(0,5011 \pm 0,0212\) & 0,513 & 0,143 \\
-180 & \(0,4914 \pm 0,0193\) & 0,508 & 0,150 \\
-\hline
+\multicolumn{4}{@{}l}{\textit{Cross-Entropy -- Dataset LOCF + punteggio di freschezza}}\\*
+30  & \(0{,}5056 \pm 0{,}0177\) & 0,512 & 0,135 \\
+60  & \(0{,}5125 \pm 0{,}0140\) & 0,479 & 0,134 \\
+90  & \(0{,}5100 \pm 0{,}0210\) & 0,497 & 0,137 \\
+120 & \(0{,}5019 \pm 0{,}0243\) & 0,521 & 0,144 \\
+150 & \(0{,}5011 \pm 0{,}0212\) & 0,513 & 0,143 \\
+180 & \(0{,}4914 \pm 0{,}0193\) & 0,508 & 0,150 \\
+\midrule
 
-\multicolumn{4}{l}{\textit{CORN DATASET LOCF + Punteggio di freschezza}}\\*
-30  & \(\mathbf{0,5131 \pm 0,0163}\) & \textbf{0,453} & 0,118 \\
-60  & \(0,5112 \pm 0,0158\) & 0,461 & 0,122 \\
-90  & \(0,5025 \pm 0,0138\) & 0,483 & 0,127 \\
-120 & \(0,5013 \pm 0,0124\) & 0,483 & 0,120 \\
-150 & \(0,5002 \pm 0,0131\) & 0,482 & 0,125 \\
-180 & \(0,5009 \pm 0,0116\) & 0,499 & 0,125 \\
-\hline
+\multicolumn{4}{@{}l}{\textit{CORN -- Dataset LOCF + punteggio di freschezza}}\\*
+30  & \(\mathbf{0{,}5131 \pm 0{,}0163}\) & \textbf{0,453} & 0,118 \\
+60  & \(0{,}5112 \pm 0{,}0158\) & 0,461 & 0,122 \\
+90  & \(0{,}5025 \pm 0{,}0138\) & 0,483 & 0,127 \\
+120 & \(0{,}5013 \pm 0{,}0124\) & 0,483 & 0,120 \\
+150 & \(0{,}5002 \pm 0{,}0131\) & 0,482 & 0,125 \\
+180 & \(0{,}5009 \pm 0{,}0116\) & 0,499 & 0,125 \\
+\midrule
 
-\multicolumn{4}{l}{\textit{CORN DATASET LOCF}}\\*
-30  & \(0,5111 \pm 0,0080\) & 0,500 & \textbf{0,097} \\
-60  & \(0,5069 \pm 0,0091\) & 0,509 & 0,105 \\
-90  & \(0,5053 \pm 0,0015\) & 0,514 & 0,100 \\
-120 & \(0,5093 \pm 0,0108\) & 0,511 & 0,102 \\
-150 & \(0,5070 \pm 0,0085\) & 0,520 & 0,100 \\
-180 & \(0,5093 \pm 0,0127\) & 0,517 & 0,101 \\
-\hline
+\multicolumn{4}{@{}l}{\textit{CORN -- Dataset LOCF}}\\*
+30  & \(0{,}5096 \pm 0{,}0166\) & 0,479 & \textbf{0,116} \\
+60  & \(0{,}5069 \pm 0{,}0091\) & 0,499 & 0,117 \\
+90  & \(0{,}5053 \pm 0{,}0015\) & 0,490 & 0,120 \\
+120 & \(0{,}5049 \pm 0{,}0168\) & 0,476 & 0,119 \\ 
+150 & \(0{,}5070 \pm 0{,}0085\) & 0,490 & 0,123 \\
+180 & \(0{,}5093 \pm 0{,}0127\) & 0,503 & 0,125 \\ 
+\midrule
 
-\multicolumn{4}{l}{\textit{CORN DATASET C}}\\*
-30  & \(0,4723 \pm 0,0062\) & 0,550 & 0,122 \\
-60  & \(0,4732 \pm 0,0074\) & 0,551 & 0,128 \\
-90  & \(0,4720 \pm 0,0021\) & 0,582 & 0,121 \\
-120 & \(0,4721 \pm 0,0024\) & 0,590 & 0,117 \\
-150 & \(0,4723 \pm 0,0106\) & 0,575 & 0,120 \\
-180 & \(0,4675 \pm 0,0087\) & 0,589 & 0,125 \\
-\hline
+\multicolumn{4}{@{}l}{\textit{CORN -- Dataset C}}\\*
+30  & \(0{,}4710 \pm 0{,}0201\) & 0,526 & 0,125 \\ 
+60  & \(0{,}4670 \pm 0{,}0166\) & 0,536 & 0,127 \\
+90  & \(0{,}4674 \pm 0{,}0169\) & 0,543 & 0,128 \\
+120 & \(0{,}4721 \pm 0{,}0024\) & 0,545 & 0,130 \\
+150 & \(0{,}4723 \pm 0{,}0106\) & 0,546 & 0,132 \\
+180 & \(0{,}4580 \pm 0{,}0208\) & 0,550 & 0,142 \\
+\midrule
 
-\multicolumn{4}{l}{\textit{CROSSENTROPY DATASET C}}\\*
-30  & \(0,4887 \pm 0,0026\) & 0,642 & 0,139 \\
-60  & \(0,4872 \pm 0,0035\) & 0,644 & 0,140 \\
-90  & \(0,4891 \pm 0,0045\) & 0,641 & 0,141 \\
-120 & \(0,4887 \pm 0,0083\) & 0,643 & 0,143 \\
-150 & \(0,4858 \pm 0,0082\) & 0,649 & 0,145 \\
-180 & \(0,4843 \pm 0,0028\) & 0,643 & 0,143 \\
+\multicolumn{4}{@{}l}{\textit{Cross-Entropy -- Dataset C}}\\*
+30  & \(0{,}4884 \pm 0{,}0096\) & 0,577 & 0,143 \\ 
+60  & \(0{,}4872 \pm 0{,}0035\) & 0,604 & 0,140 \\ 
+90  & \(0{,}4831 \pm 0{,}0151\) & 0,591 & 0,146 \\ 
+120 & \(0{,}4758 \pm 0{,}0200\) & 0,608 & 0,149 \\
+150 & \(0{,}4851 \pm 0{,}0094\) & 0,623 & 0,149 \\ 
+180 & \(0{,}4762 \pm 0{,}0118\) & 0,619 & 0,155 \\
 
 \end{longtable}
 \endgroup
 
+Un primo aspetto che emerge dal confronto riguarda l'effetto del punteggio di freschezza. Considerando le configurazioni basate sulla stessa funzione di \textit{loss} e sulla medesima \textit{sliding window}, la sua introduzione determina una riduzione del valore di \(S_{\text{Rosso}}(180)\) in cinque delle sei configurazioni CORN (con l'unica eccezione di \(w=120\), dove il valore passa da \(0{,}476\) a \(0{,}483\)) e in cinque delle sei configurazioni Cross-Entropy, mentre nel caso rimanente (\(w=30\)) il valore resta invariato. Tale risultato suggerisce che il punteggio di freschezza contribuisca nella maggior parte dei casi a identificare un gruppo ad alto rischio maggiormente caratterizzato da eventi entro i primi 180 giorni.
 
-La Tabella~\ref{tab:res_lstm_fe} riassume i risultati ottenuti al termine del processo di Nested Cross-Validation, considerando le diverse configurazioni del modello LSTM al variare della \textit{sliding window} \(w\), della funzione di \textit{loss} e dell'impiego del punteggio di freschezza.
+Questo miglioramento non si riflette, tuttavia, in modo uniforme sulle altre metriche. La Balanced Accuracy presenta variazioni di entità contenuta e andamento non univoco al variare della finestra temporale. Anche l'indicatore \(1-S_{\text{Verde}}(365)\), che esprime la probabilità cumulativa di evento entro 365 giorni per il gruppo a basso rischio, non mostra un miglioramento sistematico. In particolare, nelle configurazioni CORN l'introduzione del punteggio di freschezza determina valori lievemente più elevati di tale indicatore in cinque delle sei finestre considerate (e identici per \(w=180\)), sebbene con differenze contenute. Il contributo della feature di freschezza sembra quindi riguardare soprattutto la caratterizzazione del gruppo ad alto rischio, senza produrre un miglioramento equivalente nella separazione del gruppo a basso rischio.
 
-Un primo aspetto che emerge dal confronto riguarda l'effetto del punteggio di freschezza. Considerando le configurazioni basate sulla stessa funzione di \textit{loss} e sulla medesima \textit{sliding window}, la sua introduzione determina una riduzione del valore di \(S_{\text{Rosso}}(180)\) in tutte le configurazioni CORN e in cinque delle sei configurazioni Cross-Entropy, mentre nel caso rimanente il valore resta invariato. Tale risultato suggerisce che il punteggio di freschezza contribuisca a identificare un gruppo ad alto rischio maggiormente caratterizzato da eventi entro i primi 180 giorni.
+Il confronto con le configurazioni basate su Dataset C evidenzia un ulteriore aspetto. Per entrambe le funzioni di \textit{loss}, le configurazioni che impiegano LOCF, con o senza punteggio di freschezza, ottengono valori di Balanced Accuracy superiori e valori inferiori sia di \(S_{\text{Rosso}}(180)\) sia di \(1-S_{\text{Verde}}(365)\) rispetto alle corrispondenti configurazioni Dataset C, per tutte le finestre temporali considerate. Questi risultati suggeriscono che la rappresentazione dei dati mediante LOCF sia complessivamente più efficace, in questo esperimento, rispetto alla rappresentazione adottata in Dataset C nel discriminare tanto il gruppo ad alto rischio quanto quello a basso rischio.
 
-Questo miglioramento non si riflette, tuttavia, in modo uniforme sulle altre metriche. La Balanced Accuracy presenta variazioni di entità contenuta e andamento non univoco al variare della finestra temporale. Anche l'indicatore \(1-S_{\text{Verde}}(365)\), che esprime la probabilità cumulativa di evento entro 365 giorni per il gruppo a basso rischio, non mostra un miglioramento sistematico. In particolare, nelle configurazioni CORN l'introduzione del punteggio di freschezza determina valori più elevati di tale indicatore rispetto alla corrispondente configurazione senza punteggio. Il contributo della feature di freschezza sembra quindi riguardare soprattutto la caratterizzazione del gruppo ad alto rischio, senza produrre un miglioramento equivalente nella separazione del gruppo a basso rischio.
+Un ulteriore elemento rilevante riguarda l'influenza dell'ampiezza della \textit{sliding window} \(w\). Nel complesso, l'estensione della finestra temporale oltre i 30--60 giorni non produce un miglioramento delle prestazioni, ma si associa a un progressivo deterioramento, più evidente sugli indicatori di sopravvivenza che sulla \textit{Balanced Accuracy}.
 
-Il confronto con le configurazioni basate su Dataset C evidenzia un ulteriore aspetto. Per entrambe le funzioni di \textit{loss}, le configurazioni che impiegano LOCF, con o senza punteggio di freschezza, ottengono valori di Balanced Accuracy superiori e valori di \(S_{\text{Rosso}}(180)\) inferiori rispetto alle corrispondenti configurazioni Dataset C, per tutte le finestre temporali considerate. Il confronto relativo al gruppo a basso rischio è invece meno univoco. Questi risultati suggeriscono che la rappresentazione dei dati mediante LOCF sia maggiormente efficace, in questo esperimento, nel discriminare il gruppo ad alto rischio rispetto alla rappresentazione adottata in Dataset C, pur non garantendo un miglioramento uniforme di tutti gli indicatori di sopravvivenza.
+Nel \textbf{Dataset C} il degrado al crescere di \(w\) risulta particolarmente netto: nella configurazione CORN, sia \(S_{\text{Rosso}}(180)\) sia \(1 - S_{\text{Verde}}(365)\) peggiorano in modo strettamente monotono passando da \(w=30\) a \(w=180\) giorni (rispettivamente da \(0{,}526\) a \(0{,}550\) e da \(0{,}125\) a \(0{,}142\)), mentre la \textit{Balanced Accuracy} scende al valore minimo di \(0{,}4580\) per \(w=180\). Un andamento analogo si osserva con la \textit{Cross-Entropy}, dove a \(w=180\) l'indicatore \(1 - S_{\text{Verde}}(365)\) raggiunge \(0{,}155\), superando la soglia di riferimento dello \(0{,}15\).
 
-Considerando congiuntamente le metriche, la configurazione CORN con LOCF e punteggio di freschezza, per \(w=30\) giorni, presenta la migliore Balanced Accuracy dell'intera tabella, pari a \(0,5131 \pm 0,0163\), e il valore minimo di \(S_{\text{Rosso}}(180)\), pari a \(0,453\). Essa rappresenta pertanto la configurazione più efficace tra quelle esaminate nella classificazione e nell'identificazione del gruppo ad alto rischio. Non ottiene, tuttavia, il risultato migliore per il gruppo a basso rischio: il valore minimo di \(1-S_{\text{Verde}}(365)\), pari a \(0,097\), è infatti raggiunto dalla configurazione CORN con LOCF senza punteggio di freschezza, sempre con \(w=30\) giorni.
+Nelle configurazioni basate su \textbf{LOCF}, l'effetto della finestra dipende dalla combinazione tra funzione di \textit{loss} e punteggio di freschezza. Con la \textit{Cross-Entropy} senza freschezza, le prestazioni migliori si concentrano a \(w=30\) e degradano progressivamente fino a \(w=180\) (con \(S_{\text{Rosso}}(180)\) che sale da \(0{,}512\) a \(0{,}570\)). Con CORN e LOCF senza freschezza, la \textit{Balanced Accuracy} rimane invece sostanzialmente stabile sull'intero intervallo (\(0{,}5049\)--\(0{,}5096\)), ma la stratificazione prognostica tende comunque a peggiorare su finestre ampie, come evidenziato dalla crescita quasi monotona di \(1 - S_{\text{Verde}}(365)\) da \(0{,}116\) (\(w=30\)) a \(0{,}125\) (\(w=180\)) e dall'aumento di \(S_{\text{Rosso}}(180)\) fino a \(0{,}503\). L'unica configurazione che beneficia di un lieve ampliamento della finestra è la \textit{Cross-Entropy} con LOCF e punteggio di freschezza, che raggiunge il proprio ottimo simultaneo su tutte e tre le metriche a \(w=60\) giorni (\textit{Balanced Accuracy} pari a \(0{,}5125\), \(S_{\text{Rosso}}(180)=0{,}479\) e \(1-S_{\text{Verde}}(365)=0{,}134\)), prima di degradare nuovamente a partire da \(w=120\). Nella configurazione CORN con LOCF e punteggio di freschezza, invece, \(w=30\) risulta già ottimale su tutte le metriche e l'estensione fino a 180 giorni comporta un calo della \textit{Balanced Accuracy} (da \(0{,}5131\) a \(0{,}5009\)) e un peggioramento di \(S_{\text{Rosso}}(180)\) (da \(0{,}453\) a \(0{,}499\)).
 
-Per approfondire il comportamento della configurazione CORN con LOCF e punteggio di freschezza, caratterizzata dalla finestra temporale \(w=30\) giorni, la Figura~\ref{fig:best_score_LSTM} mostra le relative curve di Kaplan--Meier: tale configurazione viene scelta come riferimento in quanto presenta la Balanced Accuracy più elevata e il valore più basso di (\(S_{\text{Rosso}}(180)\)) tra tutte le configurazioni esaminate, rappresentando quindi un compromesso particolarmente favorevole tra prestazioni classificative e capacità di identificazione del gruppo ad alto rischio. Il confronto comprende anche le curve stimate a partire dalle classi di rischio reali, utilizzate come riferimento empirico per valutare la capacità del modello di riprodurre la separazione prognostica tra i gruppi. In questo modo è possibile osservare quanto la stratificazione prodotta dal modello si avvicini a quella associata alle classi reali.
+Dal punto di vista metodologico e clinico, questo comportamento può essere ricondotto a due fattori concorrenti. In primo luogo, il calcolo di medie aritmetiche e regressioni lineari su finestre di 120--180 giorni agisce come un filtro di \textit{smoothing} che diluisce le variazioni cliniche acute o subacute nei mesi immediatamente precedenti l'evento, particolarmente informative per i parametri dialitici (rilevati ogni 2--3 giorni) e per l'identificazione del gruppo ad alto rischio a breve termine. In secondo luogo, poiché ciascuna sequenza in ingresso alla LSTM copre cinque sedute consecutive (circa 10--14 giorni), l'adozione di finestre molto ampie aumenta la sovrapposizione informativa tra \textit{timestep} adiacenti, attenuando la dinamica locale della serie. L'introduzione del punteggio di freschezza mitiga solo parzialmente tale fenomeno su orizzonti brevi e intermedi (30--60 giorni), poiché per finestre superiori a 90 giorni il fattore di decadimento esponenziale tende a zero per la quasi totalità dei marcatori di laboratorio considerati e non compensa la diluizione introdotta dalle statistiche aggregate su lungo periodo.
+
+Considerando congiuntamente le metriche, la configurazione CORN con LOCF e punteggio di freschezza, per \(w=30\) giorni, presenta la migliore Balanced Accuracy dell'intera tabella, pari a \(0{,}5131 \pm 0{,}0163\), e il valore minimo di \(S_{\text{Rosso}}(180)\), pari a \(0{,}453\). Essa rappresenta pertanto la configurazione più efficace tra quelle esaminate nella classificazione e nell'identificazione del gruppo ad alto rischio. Il valore minimo di \(1-S_{\text{Verde}}(365)\), pari a \(0{,}116\), è invece raggiunto dalla configurazione CORN con LOCF senza punteggio di freschezza, sempre con \(w=30\) giorni, con uno scarto comunque molto contenuto rispetto al valore di \(0{,}118\) ottenuto con il punteggio di freschezza.
+
+Per approfondire il comportamento della configurazione CORN con LOCF e punteggio di freschezza, caratterizzata dalla finestra temporale \(w=30\) giorni, la Figura~\ref{fig:best_score_LSTM} mostra le relative curve di Kaplan--Meier: tale configurazione viene scelta come riferimento in quanto presenta la Balanced Accuracy più elevata e il valore più basso di \(S_{\text{Rosso}}(180)\) tra tutte le configurazioni esaminate, mantenendo al contempo un valore di \(1-S_{\text{Verde}}(365)\) molto vicino al minimo assoluto e rappresentando quindi un compromesso particolarmente favorevole tra prestazioni classificative e capacità di stratificazione prognostica. Il confronto comprende anche le curve stimate a partire dalle classi di rischio reali, utilizzate come riferimento empirico per valutare la capacità del modello di riprodurre la separazione prognostica tra i gruppi. In questo modo è possibile osservare quanto la stratificazione prodotta dal modello si avvicini a quella associata alle classi reali.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{km_LSTM_A_fold_corn_noleak_30.pdf}
-    \caption{Curve di Kaplan--Meier dei gruppi di rischio individuati dal modello LSTM con loss CORN, LOCF e punteggio di freschezza, utilizzando una sliding window di 30 giorni, a confronto con le curve relative alle classi di rischio reali.}
+    \includegraphics[width=1\linewidth]{km_LSTM_fold_corn_noleak_30.pdf}
+    \caption{Curve di Kaplan--Meier dei gruppi di rischio individuati dal modello LSTM con loss CORN, LOCF e punteggio di freschezza, utilizzando una sliding window di 30 giorni, a confronto con le curve relative alle classi di rischio reali}
     \label{fig:best_score_LSTM}
 \end{figure}
 
@@ -989,137 +929,17 @@ L'effetto della rappresentazione basata sui trend è risultato dipendente dall'a
 
 Sulla base di questi risultati, l'architettura LSTM è stata utilizzata come riferimento per gli esperimenti successivi.
 
-Le analisi successive hanno permesso di approfondire il contributo delle strategie di gestione temporale delle misurazioni. In particolare, i risultati evidenziano l'importanza dell'approccio LOCF e dell'introduzione di un punteggio di freschezza, attraverso il quale viene rappresentata l'anzianità delle informazioni cliniche disponibili.
+Le analisi successive hanno permesso di approfondire il contributo delle strategie di gestione temporale delle misurazioni. In particolare, i risultati evidenziano la netta efficacia dell'approccio LOCF rispetto al Dataset C su tutti gli indicatori considerati e l'utilità dell'introduzione di un punteggio di freschezza, attraverso il quale viene rappresentata l'anzianità delle informazioni cliniche disponibili.
 
-L'impiego della loss CORN, combinata con LOCF e punteggio di freschezza, ha prodotto, per una sliding window di 30 giorni, una Balanced Accuracy pari a 0,5131. La configurazione ha inoltre raggiunto il valore più basso di \(S_{Rosso}(180)\) tra quelli riportati nella Tabella 4.3, pari a 0,453.
+L'impiego della loss CORN, combinata con LOCF e punteggio di freschezza, ha prodotto, per una sliding window di 30 giorni, la Balanced Accuracy più elevata dell'intera analisi, pari a 0,5131, e il valore più basso di \(S_{\text{Rosso}}(180)\) tra quelli riportati nella Tabella~\ref{tab:res_lstm_fe}, pari a 0,453 (rispetto a 0,479 nella corrispondente configurazione senza punteggio di freschezza).
 
-Tuttavia, il miglioramento dell'indicatore relativo al gruppo Rosso si accompagna a un incremento della probabilità di evento nel gruppo Verde entro 365 giorni, che passa da 0,097 nella configurazione CORN + LOCF a 0,118 nella configurazione con punteggio di freschezza.
+Il miglioramento dell'indicatore relativo al gruppo Rosso si accompagna tuttavia a un lieve incremento della probabilità di evento nel gruppo Verde entro 365 giorni, che passa da 0,116 nella configurazione CORN + LOCF (valore minimo della tabella) a 0,118 nella configurazione con punteggio di freschezza.
 
-Questi risultati evidenziano che l'introduzione del freshness score non determina un miglioramento uniforme delle prestazioni, ma modifica il compromesso tra la capacità di identificare i pazienti maggiormente esposti a eventi avversi nel breve termine e quella di individuare correttamente i pazienti a basso rischio.
+Questi risultati evidenziano che l'introduzione del punteggio di freschezza non produce un miglioramento uniforme su tutte le metriche e su tutte le finestre temporali, ma agisce prevalentemente sul rafforzamento della stratificazione del gruppo ad alto rischio, a fronte di una variazione minima sull'indicatore relativo al gruppo a basso rischio.
 
-La scelta della configurazione dipende pertanto dalle priorità attribuite ai diversi indicatori di valutazione. In particolare, il punteggio di freschezza appare maggiormente favorevole quando si attribuisce priorità alla stratificazione del gruppo ad alto rischio, mentre la configurazione senza tale punteggio presenta risultati migliori per l'indicatore relativo al gruppo Verde.
+La scelta della configurazione dipende pertanto dalle priorità cliniche attribuite ai diversi indicatori di valutazione: nel complesso, la combinazione CORN con LOCF e punteggio di freschezza a 30 giorni rappresenta il compromesso più efficace quando si privilegia l'identificazione precoce dei pazienti ad alto rischio, mentre la configurazione senza punteggio di freschezza mantiene un lieve margine di vantaggio sull'indicatore relativo al gruppo Verde.
 
-% \section{Validazione con Nested Cross-Validation}
-% \label{sec:nested_cv}
-
-% Per valutare le prestazioni dei classificatori kNN è stata adottata una procedura di Nested Cross-Validation. Questa metodologia distingue la fase di selezione degli iperparametri dalla fase di valutazione del modello, consentendo di stimare le prestazioni di generalizzazione della procedura di apprendimento.
-
-% La procedura prevede due livelli di validazione. Nel ciclo interno, la Grid Search seleziona gli iperparametri che massimizzano la balanced accuracy sui dati di validazione. Nel ciclo esterno, il classificatore configurato con gli iperparametri selezionati viene valutato su un insieme di dati non utilizzato nella relativa fase di addestramento e selezione.
-
-% La valutazione è stata effettuata mediante cinque fold esterni. Per ciascun fold è stata registrata la balanced accuracy ottenuta sul relativo insieme di test. I risultati sono stati successivamente sintetizzati mediante la media e la deviazione standard dei punteggi ottenuti nei cinque fold.
-
-% La balanced accuracy è stata scelta come metrica principale di valutazione, in quanto corrisponde alla media del richiamo (recall) calcolato separatamente per ciascuna classe, attribuendo quindi lo stesso peso alle diverse classi. In questo modo,la valutazione non è dominata esclusivamente dalle prestazioni sulla classe più rappresentata.
-
-% \begin{table}[H]
-% \centering
-% \caption{Balanced accuracy media e deviazione standard
-% ottenute mediante Nested Cross-Validation}
-% \label{tab:knn_nested_cv}
-% \begin{tabular}{|l|c|c|}
-% \hline
-% \textbf{Configurazione} &
-% \textbf{Media} &
-% \textbf{Deviazione standard} \\
-% \hline
-% kNN A & 0,409 & 0,017 \\
-% \hline
-% kNN B & 0,405 & 0,012 \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-% Come riportato nella Tabella~\ref{tab:knn_nested_cv}, le due configurazioni presentano prestazioni medie simili. kNN A ottiene una balanced accuracy media pari a 0,409, con una deviazione standard di 0,017, mentre KNN B raggiunge una media di 0,405, con una deviazione standard di 0,012. La differenza tra i valori medi è ridotta e non consente, da sola, di concludere che una delle due configurazioni sia migliore dell'altra.
-
-% La variazione degli iperparametri selezionati nei diversi fold evidenzia inoltre che la procedura individua configurazioni non completamente stabili tra le diverse suddivisioni dei dati. In particolare, il numero di vicini selezionato è spesso prossimo al limite superiore dello spazio di ricerca. Questo aspetto suggerisce di approfondire la ricerca considerando un intervallo più ampio per tale parametro.
-
-% \section{Configurazione dei modelli LSTM}
-% \label{sec:configurazione_lstm}
-
-% Il modello LSTM è stato addestrato separatamente sul dataset A e sul dataset B, ottenendo due configurazioni sperimentali denominate LSTM A e LSTM B. Per entrambi gli esperimenti è stata utilizzata la stessa configurazione di iperparametri, riportata nella Tabella~\ref{tab:lstm_params}.
-
-% L'addestramento è stato eseguito per 100 epoche, con una lunghezza della sequenza in ingresso pari a 15 osservazioni. La dimensione dello stato nascosto è stata impostata a 16, il numero di layer a 2 e il tasso di dropout tra layer a 0,5. Sono stati inoltre utilizzati un batch size pari a 128 e un learning rate pari a \(10^{-3}\). Infine, la metrica utilizzata per salvare il modello migliore è la balanced accuracy.
-
-% \begin{table}[H]
-% \centering
-% \caption{Parametri utilizzati per l'addestramento dei modelli LSTM}
-% \label{tab:lstm_params}
-% \begin{tabular}{|l|c|}
-% \hline
-% \textbf{Parametro} & \textbf{Valore} \\
-% \hline
-% Lunghezza della sequenza & 15 \\
-% \hline
-% Batch size & 128 \\
-% \hline
-% Dimensione dello stato nascosto & 16 \\
-% \hline
-% Numero di layer & 2 \\
-% \hline
-% Dropout rate & 0,5 \\
-% \hline
-% Learning rate & 0,001 \\
-% \hline
-% Numero di epoche & 100 \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-% \section{Analisi della stratificazione del rischio}
-% \label{sec:analisi_rischio}
-
-% Per analizzare correttamente la stratificazione del rischio, viene utilizzato lo stimatore Kaplan--Meier\cite{KaplanMeier1958}: un metodo statistico non parametrico che consente di stimare la funzione di sopravvivenza dei diversi gruppi di rischio. Il termine non parametrico indica che non viene assunta a priori una specifica distribuzione statistica dei tempi di sopravvivenza.
-
-% La funzione di sopravvivenza rappresenta la probabilità che un soggetto non abbia ancora sperimentato l'evento avverso entro un determinato istante temporale. Il grafico mostra, sull'asse delle ascisse, il tempo di follow-up, mentre sull'asse delle ordinate riporta la probabilità stimata di rimanere liberi dall'evento.
-
-% Una caratteristica importante dello stimatore Kaplan--Meier, che lo rende particolarmente adatto alla \textit{survival analysis}, è la capacità di gestire le osservazioni censurate. Si tratta di quei casi in cui l'evento avverso non viene osservato durante il periodo di monitoraggio del soggetto, rendendo impossibile determinarne il tempo effettivo di occorrenza. È comunque possibile stabilire che l'evento non si è verificato fino all'ultima data in cui il soggetto è stato osservato.
-
-% Lo stimatore Kaplan--Meier tiene conto di questa informazione considerando il soggetto tra quelli a rischio per tutta la durata del periodo di osservazione disponibile. Dopo il momento della censura, il soggetto viene invece escluso dal calcolo dei soggetti ancora a rischio, senza essere considerato come un caso in cui l'evento si è verificato. In questo modo, anche le osservazioni per le quali non è disponibile il tempo effettivo all'evento contribuiscono alla stima della probabilità di sopravvivenza\cite{KaplanMeier1958}.
-
-% Nel contesto della stratificazione del rischio, vengono confrontate le curve di sopravvivenza delle diverse classi individuate dal modello. Ci si aspetta che la curva dei pazienti classificati ad alto rischio decresca più rapidamente rispetto a quella dei pazienti a rischio medio, che a sua volta dovrebbe decrescere più rapidamente rispetto a quella dei pazienti a basso rischio.
-
-% \begin{figure}[H]
-%     \centering
-
-%     \begin{subfigure}[t]{0.48\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{km_kNN_A.pdf}
-%         \caption{kNN A}
-%         \label{fig:km_knn_a}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[t]{0.48\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{km_LSTM_A.pdf}
-%         \caption{LSTM A}
-%         \label{fig:km_lstm_a}
-%     \end{subfigure}
-
-%     \vspace{0.5cm}
-
-%     \begin{subfigure}[t]{0.48\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{km_kNN_B.pdf}
-%         \caption{kNN B}
-%         \label{fig:km_knn_b}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[t]{0.48\textwidth}
-%         \centering
-%         \includegraphics[width=\linewidth]{km_LSTM_B.pdf}
-%         \caption{LSTM B}
-%         \label{fig:km_lstm_b}
-%     \end{subfigure}
-
-%     \caption{Curve di Kaplan--Meier dei gruppi di rischio predetti
-%     dai modelli kNN e LSTM sui dataset A e B.}
-%     \label{fig:km_confronto}
-% \end{figure}
-
-% Confrontando le curve di Kaplan--Meier riportate nella Figura~\ref{fig:km_confronto}, in tutti e quattro i modelli le curve risultano ordinate coerentemente con i livelli di rischio previsti: il gruppo rosso (classe 0) presenta la sopravvivenza più bassa, il gruppo verde (classe 2) la più alta e il gruppo giallo (classe 1) una posizione intermedia, senza incroci nell'intervallo osservato. Il kNN A, addestrato sulla rappresentazione delle misurazioni mediante medie calcolate su finestre temporali, a 400 giorni mostra probabilità di sopravvivenza di circa 0,88 per la classe 2, 0,76 per la classe 1 e 0,69 per la classe 0. Il modello LSTM A raggiunge valori di circa 0,89, 0,75 e 0,71: il gruppo verde è leggermente più alto, ma le curve gialla e rossa risultano più ravvicinate (circa 0,04 a 400 giorni, contro circa 0,07 del kNN A), con una distanza minore lungo tutto l'intervallo. Per questa rappresentazione, quindi, LSTM A non presenta una separazione maggiore rispetto a kNN A: la distinzione tra la classe 2 e le altre due è simile nei due modelli, mentre quella tra la classe 1 e la classe 0 è meno marcata per LSTM A.
-
-% Per quanto riguarda i modelli addestrati sulla rappresentazione basata sui parametri della regressione lineare calcolati sulle finestre temporali, il kNN B mostra una separazione sostanzialmente sovrapponibile a quella del kNN A; più nel dettaglio, a 400 giorni i valori sono di circa 0,87 per la classe 2, 0,74 per la classe 1 e 0,68 per la classe 0, e la distanza tra la curva verde e quella rossa (circa 0,19) è praticamente invariata rispetto a kNN A. Sulla base delle sole curve, quindi, non emergono evidenze che questa rappresentazione fornisca informazioni più utili alla stratificazione del rischio rispetto alla precedente.
-
-% Infine, LSTM B presenta, sulla base dell'ispezione visiva, la separazione più ampia tra i gruppi: a 400 giorni le probabilità di sopravvivenza sono di circa 0,89 per la classe 2, 0,78 per la classe 1 e 0,69 per la classe 0, con distanze di circa 0,11 tra curva verde e gialla e 0,09 tra curva gialla e rossa. Le tre curve risultano inoltre distanziate in modo più regolare rispetto agli altri modelli, in cui la distanza tra curva gialla e rossa è compresa tra 0,04 e 0,07. La curva del gruppo rosso, tuttavia, non decresce più rapidamente di quella di kNN B (i valori finali sono quasi coincidenti, circa 0,69 e 0,68): il vantaggio di LSTM B deriva dalla posizione più alta delle curve gialla e verde. Nel complesso, LSTM B appare il modello più promettente tra quelli considerati per la stratificazione del rischio, ma le differenze rispetto agli altri modelli sono dell'ordine di 0,01--0,03 in probabilità di sopravvivenza e vanno interpretate con cautela.
+Per quanto riguarda l'orizzonte storico di aggregazione, la variazione della \textit{sliding window} tra 30 e 180 giorni ha mostrato che finestre brevi (30--60 giorni) risultano sistematicamente preferibili: estendere la finestra oltre i 90 giorni tende infatti a diluire i segnali di deterioramento clinico recente e a peggiorare la stratificazione di sopravvivenza in tutte le configurazioni esaminate.
 
 \nocite{*}
 \printbibliography
